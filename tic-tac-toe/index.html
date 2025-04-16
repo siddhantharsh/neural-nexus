@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tic Tac Toe - AI Game</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Tic Tac Toe</h1>
+      <p class="subtitle">A Classic AI Toy Problem</p>
+    </div>
+
+    <div class="main-content">
+      <!-- Left Panel -->
+      <div class="side-panel left-panel">
+        <div class="info-box concept">
+          <h2>Toy Problem in AI</h2>
+          <p>Tic Tac Toe is considered a "toy problem" in artificial intelligence because it provides:</p>
+          <ul>
+            <li>A simple, well-defined environment with clear rules</li>
+            <li>A finite number of possible states (3^9 = 19,683)</li>
+            <li>Perfect information (all game states are visible)</li>
+            <li>Clear win/lose/draw conditions</li>
+          </ul>
+        </div>
+
+        <div class="info-box learning">
+          <h2>Reinforcement Learning Concepts</h2>
+          <p>This game demonstrates key RL principles:</p>
+          <ul>
+            <li><strong>State Space:</strong> Each board configuration represents a state</li>
+            <li><strong>Action Space:</strong> Available moves in each state</li>
+            <li><strong>Rewards:</strong> Win (+1), Draw (0), Lose (-1)</li>
+            <li><strong>Policy:</strong> Strategy for choosing moves based on state</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Center Game Panel -->
+      <div class="center-panel">
+        <div class="score-section">
+          <div class="score-box player">
+            <span class="label">You (X)</span>
+            <span class="score" id="playerScore">0</span>
+          </div>
+          <div class="score-box ai">
+            <span class="label">AI (O)</span>
+            <span class="score" id="aiScore">0</span>
+          </div>
+        </div>
+
+        <div class="game-section">
+          <div class="game-status" id="statusText">Your turn</div>
+          <div class="board" id="board"></div>
+          <div class="controls">
+            <button id="undoBtn">Undo Move</button>
+            <button id="restartBtn">New Game</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="side-panel right-panel">
+        <div class="info-box strategy">
+          <h2>AI Strategy Development</h2>
+          <p>The AI can learn optimal play through:</p>
+          <ul>
+            <li><strong>Exploration:</strong> Trying new moves to discover better strategies</li>
+            <li><strong>Exploitation:</strong> Using proven successful moves</li>
+            <li><strong>Value Function:</strong> Estimating the value of each move</li>
+            <li><strong>Pattern Recognition:</strong> Learning winning board patterns</li>
+          </ul>
+        </div>
+
+        <div class="info-box applications">
+          <h2>Real-World Applications</h2>
+          <p>Principles learned from this toy problem apply to:</p>
+          <ul>
+            <li>Game AI in complex games like Chess and Go</li>
+            <li>Robotics and autonomous systems</li>
+            <li>Decision-making in uncertain environments</li>
+            <li>Resource optimization problems</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

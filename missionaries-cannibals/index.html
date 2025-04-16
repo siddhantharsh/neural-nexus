@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missionaries and Cannibals - AI Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Missionaries & Cannibals</h1>
+            <p class="subtitle">A Classic AI State Space Problem</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Left Panel -->
+            <div class="side-panel left-panel">
+                <div class="info-box rules">
+                    <h2>Rules & Constraints</h2>
+                    <ul>
+                        <li>3 missionaries and 3 cannibals must cross the river</li>
+                        <li>The boat can carry at most 2 people</li>
+                        <li>At least 1 person must be in boat to cross</li>
+                        <li>Cannibals must never outnumber missionaries on either bank</li>
+                    </ul>
+                </div>
+
+                <div class="info-box state">
+                    <h2>Current State</h2>
+                    <div class="state-info">
+                        <div class="bank-state left-bank">
+                            <h3>Left Bank</h3>
+                            <p>Missionaries: <span id="leftM">3</span></p>
+                            <p>Cannibals: <span id="leftC">3</span></p>
+                        </div>
+                        <div class="bank-state right-bank">
+                            <h3>Right Bank</h3>
+                            <p>Missionaries: <span id="rightM">0</span></p>
+                            <p>Cannibals: <span id="rightC">0</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Panel -->
+            <div class="center-panel">
+                <div class="river-container">
+                    <div class="bank left">
+                        <div class="people-container" id="leftBankPeople">
+                            <!-- People will be added here dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="river">
+                        <div class="boat" id="boat">
+                            <div class="boat-people" id="boatPeople">
+                                <!-- Boat passengers will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bank right">
+                        <div class="people-container" id="rightBankPeople">
+                            <!-- People will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="boat-controls">
+                        <button id="addM">Add Missionary</button>
+                        <button id="addC">Add Cannibal</button>
+                        <button id="removeM">Remove Missionary</button>
+                        <button id="removeC">Remove Cannibal</button>
+                    </div>
+                    <button id="crossRiver" class="primary">Cross River</button>
+                    <div class="bottom-controls">
+                        <button id="reset">Reset Puzzle</button>
+                        <button id="showSolution" class="solution">Show Solution</button>
+                    </div>
+                </div>
+
+                <div class="status" id="status">
+                    Select passengers and cross the river...
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="side-panel right-panel">
+                <div class="info-box solution">
+                    <h2>Solution Strategy</h2>
+                    <p>This puzzle demonstrates:</p>
+                    <ul>
+                        <li>State Space Search</li>
+                        <li>Constraint Satisfaction</li>
+                        <li>Backtracking</li>
+                        <li>Goal-Oriented Problem Solving</li>
+                    </ul>
+                </div>
+
+                <div class="info-box stats">
+                    <h2>Statistics</h2>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <span class="label">Moves Made:</span>
+                            <span id="moveCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="label">Invalid Attempts:</span>
+                            <span id="invalidCount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
