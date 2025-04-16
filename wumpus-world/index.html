@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wumpus World - Knowledge Representation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Wumpus World</h1>
+        
+        <!-- Game Layout -->
+        <div class="game-layout">
+            <!-- Grid Container -->
+            <div class="game-container">
+                <div id="grid"></div>
+            </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="controls-section">
+            <div class="controls">
+                <button id="moveForward">Move Forward</button>
+                <button id="turnLeft">Turn Left</button>
+                <button id="turnRight">Turn Right</button>
+                <button id="grab">Grab Gold</button>
+                <button id="shoot">Shoot Arrow</button>
+                <button id="reset">Reset Game</button>
+            </div>
+
+            <!-- Status Panel -->
+            <div class="status-panel">
+                <h2>Agent Status</h2>
+                <p><span>Position:</span> <span id="position">(1,4)</span></p>
+                <p><span>Gold:</span> <span id="goldCounter">0/2</span></p>
+                <p><span>Breeze:</span> <span id="breeze">No</span></p>
+                <p><span>Stench:</span> <span id="stench">No</span></p>
+                <p><span>Glitter:</span> <span id="glitter">No</span></p>
+            </div>
+
+            <!-- Knowledge Base -->
+            <div class="knowledge-base">
+                <h2>Knowledge Base</h2>
+                <ul id="knowledge-list"></ul>
+            </div>
+        </div>
+
+        <!-- Theory Section -->
+        <div class="theory-section">
+            <h2>Wumpus World and Knowledge Representation</h2>
+            <p>The Wumpus World is a classic artificial intelligence problem that demonstrates fundamental concepts in knowledge representation and reasoning. In this environment, an intelligent agent must navigate through a dangerous cave system using logical inference and knowledge representation to make informed decisions.</p>
+            
+            <h3>Key Components:</h3>
+            <ul>
+                <li><strong>Environment:</strong> A 4x4 grid world containing pits, a Wumpus monster, and gold. The agent must find the gold and escape while avoiding dangers.</li>
+                <li><strong>Percepts:</strong> The agent receives sensory information about its environment:
+                    <ul>
+                        <li>Breeze: Indicates a pit in an adjacent cell</li>
+                        <li>Stench: Indicates the Wumpus monster is nearby</li>
+                        <li>Glitter: Indicates the presence of gold</li>
+                    </ul>
+                </li>
+                <li><strong>Knowledge Representation:</strong> The agent maintains a knowledge base that includes:
+                    <ul>
+                        <li>Logical statements about the environment</li>
+                        <li>Inferred knowledge from percepts</li>
+                        <li>Safe and dangerous locations</li>
+                        <li>Potential locations of hazards</li>
+                    </ul>
+                </li>
+                <li><strong>Reasoning:</strong> The agent uses:
+                    <ul>
+                        <li>Propositional logic to represent knowledge</li>
+                        <li>Inference rules to deduce new information</li>
+                        <li>Truth maintenance to update beliefs</li>
+                        <li>Decision-making based on current knowledge</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <p>This simulation demonstrates how an AI agent can use knowledge representation and reasoning to make intelligent decisions in an uncertain environment. The agent must balance exploration, safety, and goal-seeking behavior while maintaining and updating its knowledge base.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

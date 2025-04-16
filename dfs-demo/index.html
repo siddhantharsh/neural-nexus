@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Depth First Search</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Depth First Search</h1>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button id="startDFS">Start DFS</button>
+      <button id="nextStep">Next</button>
+      <button id="autoPlay">Autoplay</button>
+      <button id="clear">Clear</button>
+      <button id="clearVisited">Clear Visited</button>
+    </div>
+
+    <!-- Vertex Inputs -->
+    <div class="vertex-inputs">
+      <div class="vertex-input-group">
+        <label for="startVertex">Start Vertex:</label>
+        <input type="number" id="startVertex" value="0" min="0">
+      </div>
+      <div class="vertex-input-group">
+        <label for="treeDepth">Tree Depth:</label>
+        <input type="number" id="treeDepth" value="3" min="1">
+      </div>
+    </div>
+
+    <!-- Graph Container -->
+    <div class="graph-container">
+      <canvas id="graphCanvas"></canvas>
+    </div>
+
+    <!-- Theory Section -->
+    <div class="theory-tab">
+      <div class="theory-content">
+        <p><strong>Depth First Search (DFS)</strong> is an algorithm that explores a graph by going as deep as possible along each branch before backtracking.</p>
+        <p><strong>How DFS Works:</strong> The algorithm starts at the root node and explores as far as possible along each branch before backtracking. It uses a stack to remember which nodes to visit next.</p>
+        <p><strong>Why a Node is Chosen:</strong> DFS always chooses the most recently discovered unvisited node to explore next, following the "last in, first out" (LIFO) principle.</p>
+      </div>
+    </div>
+
+    <!-- Information Section -->
+    <div class="info">
+      <h2>Information</h2>
+      <p><strong>Stack:</strong> <span id="stack">[]</span></p>
+      <p><strong>Visiting:</strong> <span id="visiting">undefined</span></p>
+      <p><strong>Current Path:</strong> <span id="currentPath">undefined</span></p>
+    </div>
+
+    <!-- Observation Section -->
+    <div class="observation">
+      <h2>Observation</h2>
+      <p><strong>Currently visitable nodes:</strong> <span id="visitableNodes">none</span></p>
+      <p><strong>Path Cost g(n):</strong> <span id="pathCost">none</span></p>
+      <p><strong>Estimated Cost h(n):</strong> <span id="estimatedCost">none</span></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

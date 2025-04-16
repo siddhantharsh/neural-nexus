@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Nexus - Your Playground for AI Algorithms</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Hero Section with Video Background -->
+    <section class="hero">
+        <div class="video-wrapper">
+            <video class="background-video" autoplay loop muted playsinline preload="auto">
+                <source src="./resources/section1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="overlay"></div>
+        </div>
+        <div class="hero-content">
+            <div class="logo-title-container">
+                <img src="./resources/ai logo.png" alt="Neural Nexus Logo" class="logo">
+                <h1>NEURAL NEXUS</h1>
+            </div>
+            <p class="tagline">YOUR PLAYGROUND FOR AI ALGORITHMS</p>
+        </div>
+    </section>
+
+    <!-- Units Section with Video Background -->
+    <section class="units">
+        <div class="video-wrapper">
+            <video class="background-video" autoplay loop muted playsinline preload="auto">
+                <source src="./resources/section2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="overlay"></div>
+        </div>
+        <div class="section-content">
+            <h2>Units</h2>
+            <div class="units-grid">
+                <!-- Introduction to AI -->
+                <div class="unit-card">
+                    <h3>INTRODUCTION TO AI</h3>
+                    <div class="unit-content">
+                        <ul class="topics-list">
+                            <li><a href="tic-tac-toe/index.html">Tic Tac Toe (Toy Problem)</a></li>
+                            <li><a href="missionaries-cannibals/index.html">Missionaries & Cannibals (State Space)</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Data Structures and Algorithms -->
+                <div class="unit-card">
+                    <h3>DATA STRUCTURES AND ALGORITHMS</h3>
+                    <div class="unit-content">
+                        <ul class="topics-list">
+                            <li><a href="gbfs-demo/index.html">Greedy Best-First Search</a></li>
+                            <li><a href="dfs-demo/index.html">Depth First Search</a></li>
+                            <li>More coming soon...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Adversarial Search -->
+                <div class="unit-card">
+                    <h3>ADVERSARIAL SEARCH PROBLEM</h3>
+                    <div class="unit-content">
+                        <ul class="topics-list">
+                            <li>Coming Soon</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Knowledge Representation -->
+                <div class="unit-card">
+                    <h3>KNOWLEDGE REPRESENTATION</h3>
+                    <div class="unit-content">
+                        <ul class="topics-list">
+                            <li><a href="wumpus-world/index.html">Wumpus World (Logic & Knowledge)</a></li>
+                            <li>More demos coming soon...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Planning and Expert System -->
+                <div class="unit-card">
+                    <h3>PLANNING AND EXPERT SYSTEM</h3>
+                    <div class="unit-content">
+                        <ul class="topics-list">
+                            <li>Coming Soon</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Ensure videos play on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                video.play().catch(function(error) {
+                    console.log("Video play failed:", error);
+                });
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html> 

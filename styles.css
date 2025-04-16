@@ -1,0 +1,319 @@
+/* Global Styles */
+:root {
+    --primary-color: #0a1930;
+    --accent-color: #4A90E2;
+    --text-color: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --hover-color: rgba(30, 60, 114, 0.95);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Video Background Styles */
+.video-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* Different overlay for each section */
+.hero .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 25, 48, 0.7);
+    z-index: 1;
+}
+
+.units .overlay {
+    display: none; /* Remove overlay from units section */
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.logo-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    animation: fadeInDown 1s ease-out;
+}
+
+.logo {
+    width: 80px;
+    height: auto;
+    animation: rotateLogo 1.5s ease-out;
+}
+
+h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin: 0;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.tagline {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    letter-spacing: 2px;
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+/* Units Section */
+.units {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.section-content {
+    position: relative;
+    z-index: 2;
+    padding: 5rem 2rem;
+}
+
+.units h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--accent-color);
+    animation: fadeInUp 1s ease-out;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.units-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.unit-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: all 0.5s ease;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 250px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.unit-card:nth-child(1) { animation-delay: 0.1s; }
+.unit-card:nth-child(2) { animation-delay: 0.2s; }
+.unit-card:nth-child(3) { animation-delay: 0.3s; }
+.unit-card:nth-child(4) { animation-delay: 0.4s; }
+.unit-card:nth-child(5) { animation-delay: 0.5s; }
+
+.unit-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    background: var(--hover-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
+}
+
+.unit-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.unit-card:hover h3 {
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+}
+
+.unit-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.unit-card:hover .unit-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.topics-list {
+    list-style: none;
+    padding: 0;
+}
+
+.topics-list li {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.unit-card:hover .topics-list li {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.unit-card:hover .topics-list li:nth-child(1) { transition-delay: 0.1s; }
+.unit-card:hover .topics-list li:nth-child(2) { transition-delay: 0.2s; }
+.unit-card:hover .topics-list li:nth-child(3) { transition-delay: 0.3s; }
+.unit-card:hover .topics-list li:nth-child(4) { transition-delay: 0.4s; }
+
+.topics-list a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.topics-list a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.topics-list a:hover {
+    color: var(--accent-color);
+}
+
+.topics-list a:hover::after {
+    width: 100%;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rotateLogo {
+    from {
+        opacity: 0;
+        transform: rotate(-180deg) scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .logo-title-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .tagline {
+        font-size: 1.2rem;
+    }
+
+    .units-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .units-grid {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .logo {
+        width: 60px;
+    }
+} 

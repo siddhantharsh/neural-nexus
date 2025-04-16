@@ -1,0 +1,534 @@
+:root {
+    --primary: #4a90e2;
+    --secondary: #2c3e50;
+    --accent: #e74c3c;
+    --background: #f5f9ff;
+    --text: #34495e;
+    --border: #bcd9f7;
+    --success: #27ae60;
+    --warning: #f39c12;
+    --water: #74b9ff;
+    --ground: #95a5a6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.1);
+    padding: 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    color: var(--secondary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--primary);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 300px minmax(auto, 600px) 300px;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Side Panels */
+.side-panel {
+    position: sticky;
+    top: 2rem;
+}
+
+.info-box {
+    background-color: var(--background);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-5px);
+}
+
+.info-box h2 {
+    color: var(--secondary);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.info-box ul {
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+.info-box li {
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+
+/* River Container */
+.river-container {
+    background-color: var(--background);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    min-height: 400px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 1rem;
+}
+
+.river {
+    background-color: var(--water);
+    position: relative;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 200px;
+}
+
+.bank {
+    background-color: var(--ground);
+    padding: 1rem;
+    border-radius: 8px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.boat {
+    width: 120px;
+    height: 60px;
+    background-color: #795548;
+    border-radius: 10px 10px 0 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.boat::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background-color: #5d4037;
+    border-radius: 0 0 5px 5px;
+}
+
+.boat-people {
+    position: absolute;
+    top: -30px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.person {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.person:hover {
+    transform: scale(1.1) translateY(-5px);
+}
+
+.missionary {
+    background-color: var(--primary);
+    animation: spawn 0.5s ease-out;
+}
+
+.cannibal {
+    background-color: var(--accent);
+    animation: spawn 0.5s ease-out;
+}
+
+/* Spawn animation for new people */
+@keyframes spawn {
+    0% {
+        transform: scale(0) translateY(20px);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) translateY(-10px);
+    }
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Boarding animation */
+@keyframes board {
+    0% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-30px) translateX(0); }
+    100% { 
+        transform: translateY(0) translateX(0);
+    }
+}
+
+.person.boarding {
+    animation: board 0.8s ease-in-out;
+}
+
+/* People in boat animations */
+.boat-people .person {
+    animation: float-person 2s ease-in-out infinite;
+}
+
+@keyframes float-person {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Bank people animations */
+.bank .person {
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+.bank .person:hover {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Unboarding animation */
+@keyframes unboard {
+    0% { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% { 
+        transform: translateY(-20px);
+    }
+    100% { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.person.unboarding {
+    animation: unboard 0.8s ease-in-out;
+}
+
+/* Moving with boat animation */
+@keyframes move-with-boat {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-5px) rotate(-5deg);
+    }
+    75% {
+        transform: translateY(-5px) rotate(5deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+.boat.crossing-right .boat-people .person,
+.boat.crossing-left .boat-people .person {
+    animation: move-with-boat 1s ease-in-out infinite;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.boat-controls {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    background-color: var(--secondary);
+}
+
+button.primary {
+    background-color: var(--success);
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+}
+
+button:disabled {
+    background-color: var(--border);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Status */
+.status {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: var(--background);
+}
+
+/* State Info */
+.state-info {
+    display: grid;
+    gap: 1rem;
+}
+
+.bank-state {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.bank-state h3 {
+    color: var(--secondary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.bank-state p {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Statistics */
+.stat-grid {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.stat-item {
+    background-color: white;
+    padding: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-item .label {
+    font-weight: 500;
+}
+
+.stat-item span:last-child {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 250px minmax(auto, 500px) 250px;
+        gap: 1.5rem;
+    }
+
+    .container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 1000px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+
+    .side-panel {
+        position: static;
+    }
+
+    .river-container {
+        min-height: 300px;
+    }
+
+    .boat {
+        width: 100px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .boat-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .river-container {
+        padding: 1rem;
+        min-height: 250px;
+    }
+}
+
+.bottom-controls {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.bottom-controls button {
+    flex: 1;
+}
+
+button.solution {
+    background-color: var(--secondary);
+}
+
+button.solution:hover {
+    background-color: var(--primary);
+}
+
+button.solution:disabled {
+    background-color: var(--border);
+}
+
+/* Animation for solution playback */
+@keyframes highlightMove {
+    0% { background-color: var(--success); }
+    100% { background-color: var(--primary); }
+}
+
+.highlight-move {
+    animation: highlightMove 1s ease;
+}
+
+/* Boat floating animation */
+@keyframes float {
+    0%, 100% { transform: translateY(-50%); }
+    50% { transform: translateY(calc(-50% - 10px)); }
+}
+
+/* Boat crossing animations */
+@keyframes cross-right {
+    0% { 
+        left: 20px;
+        transform: translateY(-50%);
+    }
+    50% { transform: translateY(calc(-50% - 5px)); }
+    100% { 
+        left: calc(100% - 140px);
+        transform: translateY(-50%);
+    }
+}
+
+@keyframes cross-left {
+    0% { 
+        left: calc(100% - 140px);
+        transform: translateY(-50%);
+    }
+    50% { transform: translateY(calc(-50% - 5px)); }
+    100% { 
+        left: 20px;
+        transform: translateY(-50%);
+    }
+}
+
+.boat.crossing-right {
+    animation: cross-right 1.5s ease-in-out forwards;
+}
+
+.boat.crossing-left {
+    animation: cross-left 1.5s ease-in-out forwards;
+}
+
+/* Boat on left side */
+.boat.left-side {
+    left: 20px;
+    animation: float 2s ease-in-out infinite;
+}
+
+/* Boat on right side */
+.boat.right-side {
+    right: 20px;
+    animation: float 2s ease-in-out infinite;
+}
+
+/* Remove transform from base boat class */
+.boat {
+    transform: none;
+} 

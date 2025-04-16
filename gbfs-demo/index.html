@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greedy Best-First Search</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Greedy Best-First Search</h1>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button id="startGBFS">Start GBFS</button>
+      <button id="nextStep">Next</button>
+      <button id="autoPlay">Autoplay</button>
+      <button id="clear">Clear</button>
+      <button id="clearVisited">Clear Visited</button>
+    </div>
+
+    <!-- Vertex Inputs -->
+    <div class="vertex-inputs">
+      <div class="vertex-input-group">
+        <label for="startVertex">Start Vertex:</label>
+        <input type="number" id="startVertex" value="0" min="0">
+      </div>
+      <div class="vertex-input-group">
+        <label for="goalVertex">End Vertex:</label>
+        <input type="number" id="goalVertex" value="5" min="0">
+      </div>
+      <div class="vertex-input-group">
+        <label for="treeDepth">Tree Depth:</label>
+        <input type="number" id="treeDepth" value="3" min="1">
+      </div>
+    </div>
+
+    <!-- Theory Section -->
+    <div class="theory-tab">
+      <div class="theory-content">
+        <p><strong>Greedy Best-First Search (GBFS)</strong> is an algorithm that explores a graph by expanding the node that is closest to the goal, based on a heuristic function h(n). Unlike A*, it does not consider the cost to reach the current node (g(n)). This makes it faster but not always optimal.</p>
+        <p><strong>Heuristic Function (h(n)):</strong> Estimates the cost from the current node to the goal. The algorithm always chooses the node with the lowest h(n).</p>
+        <p><strong>Why a Node is Chosen:</strong> The node with the lowest heuristic value (h(n)) is selected from the frontier.</p>
+      </div>
+    </div>
+
+    <!-- Graph Container -->
+    <div class="graph-container">
+      <canvas id="graphCanvas" width="600" height="500"></canvas>
+    </div>
+
+    <!-- Information -->
+    <div class="info">
+      <h2>Information</h2>
+      <p><strong>Goal Vector:</strong> <span id="goalVector">undefined</span></p>
+      <p><strong>Frontier:</strong> <span id="frontier">[]</span></p>
+      <p><strong>Estimated Cost (E):</strong> <span id="estimatedCost">[]</span></p>
+      <p><strong>Visiting:</strong> <span id="visiting">undefined</span></p>
+      <p><strong>To Visit:</strong> <span id="toVisit">undefined</span></p>
+    </div>
+
+    <!-- Observation -->
+    <div class="observation" id="observation">
+      <h2>Observation</h2>
+      <p><strong>Currently visitable nodes:</strong> <span id="visitableNodes">undefined</span></p>
+      <p><strong>Path Cost g(n):</strong> <span id="pathCost">undefined</span></p>
+      <p><strong>Estimated Cost h(n):</strong> <span id="heuristicCost">undefined</span></p>
+      <p><strong>Total Cost f(n):</strong> <span id="totalCost">undefined</span></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
