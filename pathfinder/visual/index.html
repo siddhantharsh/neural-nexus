@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>find path by algorithm</title>
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./lib/themes/jquery.ui.all.css" />
+
+    <script type="text/javascript" src="./lib/raphael-min.js"></script>
+    <script type="text/javascript" src="./lib/es5-shim.min.js"></script>
+    <script type="text/javascript" src="./lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="./lib/state-machine.min.js"></script>
+    <script type="text/javascript" src="./lib/async.min.js"></script>
+
+    <script type="text/javascript" src="./lib/ui/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.mouse.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.draggable.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.accordion.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.slider.min.js"></script>
+
+    <script type="text/javascript" src="./lib/pathfinding-browser.min.js"></script>
+
+    <script type="text/javascript" src="./js/view.js"></script>
+    <script type="text/javascript" src="./js/controller.js"></script>
+    <script type="text/javascript" src="./js/panel.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+  </head>
+  <body>
+    <div id="draw_area"></div>
+
+    <div id="loading_panel" class="panel" style="display: none;">
+      <span id="loading_status"></span>
+    </div>
+
+    <div id="stats" style="display: none;"></div>
+
+    <div id="instructions_panel" class="panel">
+      <header>
+        <h2 class="header_title">Instructions</h2>
+        <span id="hide_instructions">hide</span>
+      </header>
+      Click within the <span class="white">white</span> grid and drag your mouse to draw obstacles. <br>
+      Drag the <span class="green">green</span> node to set the start position. <br>
+      Drag the <span class="red">red</span> node to set the end position. <br>
+      Choose an algorithm from the right-hand panel. <br>
+      Click Start Search in the lower-right corner to start the animation.
+    </div>
+
+    <div id="algorithm_panel" class="panel right_panel">
+      <header><h2 class="header_title">Select Algorithm</h2></header>
+
+      <!-- Universal Options -->
+      <div class="universal_options">
+        <div class="option_item">
+          <input type="checkbox" id="allow_diagonal" checked>
+          <label for="allow_diagonal" class="option_label">Allow Diagonal Movement</label>
+        </div>
+      </div>
+
+      <div class="algorithm_options">
+        <div class="algorithm_choice">
+          <input type="radio" name="algorithm" id="astar_header" value="astar" checked />
+          <label for="astar_header" class="option_label">A*</label>
+        </div>
+        <div class="algorithm_choice">
+          <input type="radio" name="algorithm" id="ucs_header" value="ucs" />
+          <label for="ucs_header" class="option_label">Uniform Cost Search</label>
+        </div>
+        <div class="algorithm_choice">
+          <input type="radio" name="algorithm" id="breadthfirst_header" value="dfs" />
+          <label for="breadthfirst_header" class="option_label">Depth-First Search</label>
+        </div>
+        <div class="algorithm_choice">
+          <input type="radio" name="algorithm" id="bestfirst_header" value="bfs" />
+          <label for="bestfirst_header" class="option_label">Best-First Search</label>
+        </div>
+      </div>
+
+      <div class="control_buttons">
+        <button id="button1" class="control_button">Start Search</button>
+        <button id="button2" class="control_button">Pause Search</button>
+        <button id="button3" class="control_button">Clear Walls</button>
+      </div>
+
+      <div id="algorithm_info" class="algorithm_info">
+        <div id="astar_info" class="algo_desc">
+          <h3>A* Search</h3>
+          <p>A* combines the benefits of both Uniform Cost Search and Best-First Search.</p>
+          <p><strong>f(n) = g(n) + h(n)</strong> where:</p>
+          <ul>
+            <li>g(n): Cost from start to current node</li>
+            <li>h(n): Estimated cost from current node to goal</li>
+          </ul>
+          <p>Guarantees shortest path and is usually the most efficient.</p>
+        </div>
+
+        <div id="ucs_info" class="algo_desc" style="display: none;">
+          <h3>Uniform Cost Search</h3>
+          <p>UCS expands nodes based on their path cost from the start node.</p>
+          <p><strong>Only considers g(n)</strong> where:</p>
+          <ul>
+            <li>g(n): Actual cost from start to current node</li>
+          </ul>
+          <p>Guarantees shortest path but may explore more nodes than A*.</p>
+        </div>
+
+        <div id="breadthfirst_info" class="algo_desc" style="display: none;">
+          <h3>Depth-First Search</h3>
+          <p>DFS explores as far as possible along each branch before backtracking.</p>
+          <p><strong>Uses a Stack (LIFO)</strong></p>
+          <ul>
+            <li>Memory efficient</li>
+            <li>May not find shortest path</li>
+            <li>Can get stuck in infinite paths</li>
+          </ul>
+        </div>
+
+        <div id="bestfirst_info" class="algo_desc" style="display: none;">
+          <h3>Best-First Search</h3>
+          <p>Greedy approach that expands the most promising node based on heuristic.</p>
+          <p><strong>Only considers h(n)</strong> where:</p>
+          <ul>
+            <li>h(n): Estimated cost from current node to goal</li>
+          </ul>
+          <p>Fast but does not guarantee shortest path.</p>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        // Function to update container height smoothly
+        function updateContainerHeight(targetInfo) {
+          var container = $('#algorithm_info');
+          var newHeight = targetInfo.outerHeight(true);
+          container.css('height', newHeight + 'px');
+        }
+
+        // Handle algorithm selection
+        $('.algorithm_choice input[type="radio"]').change(function() {
+          $('.finder_section').hide();
+          $('#' + $(this).attr('id').replace('_header', '_section')).show();
+          
+          // Animate algorithm info transition
+          $('.algo_desc').removeClass('visible');
+          
+          setTimeout(function() {
+            $('.algo_desc').hide();
+            var targetInfo = $('#' + $(this).attr('id').replace('_header', '_info'));
+            targetInfo.show();
+            
+            // Update height before making visible
+            updateContainerHeight(targetInfo);
+            
+            setTimeout(function() {
+              targetInfo.addClass('visible');
+            }, 50);
+          }.bind(this), 300);
+        });
+        
+        // Show A* info by default with animation
+        var initialInfo = $('#astar_info');
+        initialInfo.show();
+        updateContainerHeight(initialInfo);
+        setTimeout(function() {
+          initialInfo.addClass('visible');
+        }, 50);
+
+        // Update height on window resize
+        $(window).resize(function() {
+          var visibleInfo = $('.algo_desc.visible');
+          if (visibleInfo.length) {
+            updateContainerHeight(visibleInfo);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

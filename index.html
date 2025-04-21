@@ -6,6 +6,7 @@
     <title>Neural Nexus - Your Playground for AI Algorithms</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Hero Section with Video Background -->
@@ -23,11 +24,15 @@
                 <h1>NEURAL NEXUS</h1>
             </div>
             <p class="tagline">YOUR PLAYGROUND FOR AI ALGORITHMS</p>
+            <a href="#algorithms" class="scroll-btn">
+                <span>Explore Algorithms</span>
+                <i class="fas fa-chevron-down"></i>
+            </a>
         </div>
     </section>
 
-    <!-- Units Section with Video Background -->
-    <section class="units">
+    <!-- Algorithms Section with Video Background -->
+    <section id="algorithms" class="units">
         <div class="video-wrapper">
             <video class="background-video" autoplay loop muted playsinline preload="auto">
                 <source src="./resources/section2.mp4" type="video/mp4">
@@ -36,59 +41,150 @@
             <div class="overlay"></div>
         </div>
         <div class="section-content">
-            <h2>Units</h2>
+            <h2>Algorithm Visualizations</h2>
             <div class="units-grid">
-                <!-- Introduction to AI -->
-                <div class="unit-card">
-                    <h3>INTRODUCTION TO AI</h3>
-                    <div class="unit-content">
-                        <ul class="topics-list">
-                            <li><a href="tic-tac-toe/index.html">Tic Tac Toe (Toy Problem)</a></li>
-                            <li><a href="missionaries-cannibals/index.html">Missionaries & Cannibals (State Space)</a></li>
-                        </ul>
+                <!-- Carousel Container -->
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <button class="carousel-button prev">❮</button>
+                        <button class="carousel-button next">❯</button>
+                        <div class="carousel-dots"></div>
+                        <div class="carousel">
+                            <!-- Main Algorithm Card -->
+                            <div class="unit-card carousel-card main-algorithms-card">
+                                <div class="card-content">
+                                    <h3>Graph-Based AI Search Algorithms</h3>
+                                    <div class="unit-content algorithms-list">
+                                        <p class="intro-text">Explore a collection of powerful search algorithms that form the backbone of artificial intelligence and problem-solving.</p>
+                                        <div class="swipe-instruction">
+                                            <span class="swipe-text next-slide">Navigate to View More</span>
+                                        </div>
+                                        <p class="algo-count">5 Interactive Visualizations</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Alpha-Beta Pruning -->
+                            <div class="unit-card carousel-card">
+                                <div class="card-content">
+                                    <h3>ALPHA-BETA PRUNING</h3>
+                                    <div class="unit-content">
+                                        <p class="algorithm-description">An optimization technique for the minimax algorithm in game theory.</p>
+                                        <a href="alpha-beta-pruning/index.html" class="algorithm-link">Interactive Tree Visualization</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Greedy Best-First Search -->
+                            <div class="unit-card carousel-card">
+                                <div class="card-content">
+                                    <h3>GREEDY BEST-FIRST SEARCH</h3>
+                                    <div class="unit-content">
+                                        <p class="algorithm-description">A search algorithm that prioritizes nodes based on a heuristic function.</p>
+                                        <a href="gbfs-demo/index.html" class="algorithm-link">Interactive Path Finding</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Depth-First Search -->
+                            <div class="unit-card carousel-card">
+                                <div class="card-content">
+                                    <h3>DEPTH-FIRST SEARCH</h3>
+                                    <div class="unit-content">
+                                        <p class="algorithm-description">A graph traversal algorithm that explores as far as possible along each branch.</p>
+                                        <a href="dfs-demo/index.html" class="algorithm-link">Interactive Graph Traversal</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- A* Search -->
+                            <div class="unit-card carousel-card">
+                                <div class="card-content">
+                                    <h3>A* SEARCH</h3>
+                                    <div class="unit-content">
+                                        <p class="algorithm-description">An informed search algorithm that finds the shortest path using heuristics.</p>
+                                        <a href="a star algorithm/index.html" class="algorithm-link">Path Finding Visualization</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Uniform Cost Search -->
+                            <div class="unit-card carousel-card">
+                                <div class="card-content">
+                                    <h3>UNIFORM COST SEARCH</h3>
+                                    <div class="unit-content">
+                                        <p class="algorithm-description">A search algorithm that finds the path with the lowest cumulative cost.</p>
+                                        <a href="Uniform Cost Search/index.html" class="algorithm-link">Cost-Based Path Finding</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Data Structures and Algorithms -->
+                <!-- Tic-Tac-Toe AI -->
                 <div class="unit-card">
-                    <h3>DATA STRUCTURES AND ALGORITHMS</h3>
-                    <div class="unit-content">
-                        <ul class="topics-list">
-                            <li><a href="gbfs-demo/index.html">Greedy Best-First Search</a></li>
-                            <li><a href="dfs-demo/index.html">Depth First Search</a></li>
-                            <li>More coming soon...</li>
-                        </ul>
+                    <div class="card-content">
+                        <h3>TIC-TAC-TOE AI</h3>
+                        <div class="unit-content">
+                            <p class="algorithm-description">Play against an AI that uses minimax algorithm with alpha-beta pruning.</p>
+                            <a href="tic-tac-toe/index.html" class="algorithm-link">Play Against AI</a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Adversarial Search -->
+                <!-- Missionaries and Cannibals -->
                 <div class="unit-card">
-                    <h3>ADVERSARIAL SEARCH PROBLEM</h3>
+                    <div class="card-content">
+                        <h3>MISSIONARIES & CANNIBALS</h3>
                     <div class="unit-content">
-                        <ul class="topics-list">
-                            <li>Coming Soon</li>
-                        </ul>
+                            <p class="algorithm-description">A classic state space problem solved using search algorithms.</p>
+                            <a href="missionaries-cannibals/index.html" class="algorithm-link">State Space Visualization</a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Knowledge Representation -->
+                <!-- Wumpus World -->
                 <div class="unit-card">
-                    <h3>KNOWLEDGE REPRESENTATION</h3>
+                    <div class="card-content">
+                        <h3>WUMPUS WORLD</h3>
                     <div class="unit-content">
-                        <ul class="topics-list">
-                            <li><a href="wumpus-world/index.html">Wumpus World (Logic & Knowledge)</a></li>
-                            <li>More demos coming soon...</li>
-                        </ul>
+                            <p class="algorithm-description">A knowledge representation and reasoning problem in AI.</p>
+                            <a href="wumpus-world/index.html" class="algorithm-link">Logic & Knowledge Demo</a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Planning and Expert System -->
+                <!-- Traveling Salesman -->
                 <div class="unit-card">
-                    <h3>PLANNING AND EXPERT SYSTEM</h3>
+                    <div class="card-content">
+                        <h3>TRAVELING SALESMAN</h3>
                     <div class="unit-content">
-                        <ul class="topics-list">
-                            <li>Coming Soon</li>
-                        </ul>
+                            <p class="algorithm-description">An optimization problem to find the shortest possible route.</p>
+                            <a href="Traveling salesman problem/index.html" class="algorithm-link">Route Optimization</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Constraint Satisfaction -->
+                <div class="unit-card">
+                    <div class="card-content">
+                        <h3>CONSTRAINT SATISFACTION</h3>
+                    <div class="unit-content">
+                            <p class="algorithm-description">Solving problems by finding values that satisfy all constraints.</p>
+                            <a href="room-coloring/index.html" class="algorithm-link">Room Coloring Problem</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unification Algorithm -->
+                <div class="unit-card">
+                    <div class="card-content">
+                        <h3>UNIFICATION ALGORITHM</h3>
+                    <div class="unit-content">
+                            <p class="algorithm-description">A fundamental algorithm in logic programming and AI.</p>
+                            <a href="Unification Algorithm/index.html" class="algorithm-link">Logic Unification Demo</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -96,16 +192,96 @@
     </section>
 
     <script>
-        // Ensure videos play on load
         document.addEventListener('DOMContentLoaded', function() {
+            // Ensure videos play on load
             const videos = document.querySelectorAll('video');
             videos.forEach(video => {
                 video.play().catch(function(error) {
                     console.log("Video play failed:", error);
                 });
             });
+
+            // Smooth scroll for the explore button
+            document.querySelector('.scroll-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                const algorithmsSection = document.querySelector('#algorithms');
+                algorithmsSection.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // Carousel functionality
+            const carousel = document.querySelector('.carousel');
+            const cards = document.querySelectorAll('.carousel-card');
+            const prevButton = document.querySelector('.carousel-button.prev');
+            const nextButton = document.querySelector('.carousel-button.next');
+            const dotsContainer = document.querySelector('.carousel-dots');
+            
+            let currentIndex = 0;
+            
+            // Create dots
+            cards.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+            
+            function updateDots() {
+                document.querySelectorAll('.dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+            
+            function goToSlide(index) {
+                currentIndex = index;
+                const offset = -index * 100;
+                carousel.style.transform = `translateX(${offset}%)`;
+                updateDots();
+            }
+
+            // Add click handler for the arrow
+            document.querySelector('.next-slide').addEventListener('click', () => {
+                goToSlide(1); // Go to the second slide
+            });
+            
+            prevButton.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+                goToSlide(currentIndex);
+            });
+            
+            nextButton.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % cards.length;
+                goToSlide(currentIndex);
+            });
+
+            // Touch events for swipe
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            carousel.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            carousel.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swipe left
+                        nextButton.click();
+                    } else {
+                        // Swipe right
+                        prevButton.click();
+                    }
+                }
+            }
         });
     </script>
-    <script src="script.js"></script>
 </body>
 </html> 

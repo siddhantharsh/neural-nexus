@@ -1,0 +1,197 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+    background-color: #f5f9ff;
+}
+
+input {
+    cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+    padding: 0px;
+    font-weight: normal;
+}
+
+.header_title {
+    font-size: 120%;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin-top: -10px;
+    color: #2d3748;
+}
+
+.panel {
+    position: fixed;
+    padding: 20px;
+    background-color: rgba(119, 149, 181, 0.85);
+    color: #2d3748;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.1);
+    cursor: default;
+}
+
+.right_panel {
+    width: 250px;
+    right: 20px;
+}
+
+#algorithm_panel {
+    right: 20px;
+    top: 20px;
+}
+
+#instructions_panel {
+    display: none;
+}
+
+#hide_instructions {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    font-size: 90%;
+    cursor: pointer;
+    color: #2d3748;
+}
+
+#hide_instruction:hover {
+    color: #1a202c;
+    text-decoration: underline;
+}
+
+.option_header {
+    font-size: 80%;
+    margin-left: 20px;
+    color: #2d3748;
+}
+
+.option_label {
+    cursor: pointer;
+    color: #2d3748;
+    font-size: 14px;
+}
+
+button {
+    border: none;
+    background: #C5D3E3;
+    border-radius: 30px;
+    font-size: 90%;
+    cursor: pointer;
+    padding: 8px 20px;
+    margin: 0 2%;
+    width: 28%;
+    color: #2d3748;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #b1c2d8;
+}
+
+.finder_section {
+    border: solid 1px #C5D3E3;
+    border-radius: 8px;
+    margin: 5px;
+    background-color: rgba(197, 211, 227, 0.3);
+}
+
+.sub_options {
+    padding: 2px;
+    font-size: 14px;
+    margin: 2px 30px 0;
+}
+
+#stats {
+    margin-top: 15px;
+    color: #2d3748;
+    font-size: 85%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(44, 62, 80, 0.1);
+}
+
+.white {
+    color: #fff;
+}
+
+.green {
+    color: #48bb78;
+}
+
+.red {
+    color: #f56565;
+}
+
+.spinner {
+    width: 2em;
+    background: #C5D3E3;
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    color: #2d3748;
+}
+
+#play_panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(119, 149, 181, 0.85);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.1);
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.control_buttons {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.control_button {
+    border: none;
+    background: #C5D3E3;
+    border-radius: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px 15px;
+    color: #2d3748;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.control_button:hover {
+    background: #b1c2d8;
+}
+
+/* Hide heuristic and corner options */
+#heuristic_section, 
+#corner_section {
+    display: none;
+}
+
+/* Light blue background for algorithm options */
+.algorithm_options {
+    background-color: rgba(197, 211, 227, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.algorithm_choice {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.algorithm_choice input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}

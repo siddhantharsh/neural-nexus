@@ -14,16 +14,29 @@ const reason = document.getElementById('reason');
 // Add Clear Visited button functionality
 const clearVisitedButton = document.getElementById('clearVisited');
 
-// Graph representation
-let graph = {};
-let nextNodeId = 0;
+// Add depth limit input reference
+const depthLimitInput = document.getElementById('depthLimit');
+
+// Graph representation with adjusted coordinates
+let graph = {
+    0: { x: 400, y: 80, neighbors: [1, 2] },
+    1: { x: 250, y: 200, neighbors: [3, 4] },
+    2: { x: 550, y: 200, neighbors: [5, 6] },
+    3: { x: 150, y: 320, neighbors: [] },
+    4: { x: 350, y: 320, neighbors: [] },
+    5: { x: 450, y: 320, neighbors: [] },
+    6: { x: 650, y: 320, neighbors: [] }
+};
+let nextNodeId = 7;
 
 // State variables
 let startVertex = 0;
-let goalVertex = 5;
+let depthLimit = 3;  // Default depth limit
 let visited = new Set();
 let stack = [];
 let currentVertex = null;
+let currentDepth = 0;  // Track current depth
+let depthMap = new Map();  // Track depth of each node
 let isAutoPlaying = false;
 let animationFrameId = null;
 let isTraversalComplete = false;
@@ -44,147 +57,6 @@ let lastMouseX = 0;
 let lastMouseY = 0;
 let isAnimating = false;
 
-class Graph {
-    constructor(canvas) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
-        this.nodes = [];
-        this.edges = [];
-        this.nodeRadius = 25;
-        this.selectedNode = null;
-        this.isDragging = false;
-        this.dragStart = { x: 0, y: 0 };
-        this.initializeDefaultGraph();
-        this.setupEventListeners();
-    }
-
-    initializeDefaultGraph() {
-        // Create default nodes with positions
-        const nodes = [
-            { id: 0, x: 400, y: 100, h: 15 },  // Root node
-            { id: 1, x: 250, y: 200, h: 16 },  // Left child of root
-            { id: 2, x: 550, y: 200, h: 9 },   // Right child of root
-            { id: 3, x: 175, y: 300, h: 20 },  // Left child of node 1
-            { id: 4, x: 325, y: 300, h: 19 },  // Right child of node 1
-            { id: 5, x: 475, y: 300, h: 0 },   // Left child of node 2
-            { id: 6, x: 625, y: 300, h: 10 }   // Right child of node 2
-        ];
-
-        // Create edges between nodes
-        const edges = [
-            { from: 0, to: 1 },
-            { from: 0, to: 2 },
-            { from: 1, to: 3 },
-            { from: 1, to: 4 },
-            { from: 2, to: 5 },
-            { from: 2, to: 6 }
-        ];
-
-        this.nodes = nodes;
-        this.edges = edges;
-        this.draw();
-    }
-
-    setupEventListeners() {
-        this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
-        this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
-        this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
-    }
-
-    handleMouseDown(event) {
-        const rect = this.canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-
-        this.nodes.forEach(node => {
-            const distance = Math.sqrt((x - node.x) ** 2 + (y - node.y) ** 2);
-            if (distance < this.nodeRadius) {
-                this.selectedNode = node;
-                this.isDragging = true;
-                this.dragStart = { x, y };
-            }
-        });
-    }
-
-    handleMouseMove(event) {
-        if (!this.isDragging || !this.selectedNode) return;
-
-        const rect = this.canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-
-        const dx = x - this.dragStart.x;
-        const dy = y - this.dragStart.y;
-
-        this.selectedNode.x += dx;
-        this.selectedNode.y += dy;
-
-        this.dragStart = { x, y };
-        this.draw();
-    }
-
-    handleMouseUp() {
-        this.isDragging = false;
-        this.selectedNode = null;
-    }
-
-    draw() {
-        const ctx = this.ctx;
-        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Draw edges
-        ctx.beginPath();
-        ctx.strokeStyle = '#7795b5';
-        ctx.lineWidth = 2;
-        this.edges.forEach(edge => {
-            const fromNode = this.nodes.find(n => n.id === edge.from);
-            const toNode = this.nodes.find(n => n.id === edge.to);
-            ctx.moveTo(fromNode.x, fromNode.y);
-            ctx.lineTo(toNode.x, toNode.y);
-        });
-        ctx.stroke();
-
-        // Draw nodes
-        this.nodes.forEach(node => {
-            // Node circle
-            ctx.beginPath();
-            ctx.fillStyle = '#C5D3E3';
-            ctx.strokeStyle = '#7795b5';
-            ctx.lineWidth = 3;
-            ctx.arc(node.x, node.y, this.nodeRadius, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.stroke();
-
-            // Node text
-            ctx.fillStyle = '#2d3748';
-            ctx.font = '16px "Press Start 2P"';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(node.id.toString(), node.x, node.y);
-
-            // Heuristic value
-            ctx.font = '14px Inter';
-            ctx.fillStyle = '#2d3748';
-            ctx.fillText(`h:${node.h}`, node.x, node.y + this.nodeRadius + 20);
-        });
-    }
-}
-
-// Initialize the graph when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('graphCanvas');
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    const graph = new Graph(canvas);
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        graph.draw();
-    });
-});
-
 // Initial canvas setup
 function setupCanvas() {
     // Set canvas size based on container
@@ -192,23 +64,31 @@ function setupCanvas() {
     graphCanvas.width = container.clientWidth - 30;  // Subtract padding
     graphCanvas.height = container.clientHeight - 30;
     
-    // Set up initial scale
-    ctx.scale(1, 1);
+    // Center the graph
+    const centerX = graphCanvas.width / 2;
+    const offsetX = centerX - 400;  // 400 is the center x-coordinate in our graph
+    
+    // Adjust all node positions based on canvas center
+    for (const nodeId in graph) {
+        graph[nodeId].x += offsetX;
+    }
     
     // Set canvas background
-    ctx.fillStyle = '#f0f0f0';
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, graphCanvas.width, graphCanvas.height);
     
-    // Draw initial empty graph
+    // Draw initial graph
     drawGraph();
 }
 
 // Draw the graph
 function drawGraph() {
     ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, graphCanvas.width, graphCanvas.height);
 
     // Draw edges
-    ctx.strokeStyle = '#666';
+    ctx.strokeStyle = '#94A3B8';  // Lighter gray color for edges
     ctx.lineWidth = 2;
     for (const vertex in graph) {
         const { x, y, neighbors } = graph[vertex];
@@ -228,23 +108,23 @@ function drawGraph() {
         const { x, y } = graph[vertex];
         
         // Node circle
-        ctx.fillStyle = visited.has(parseInt(vertex)) ? '#97a7c8' : '#1a202c';
+        ctx.fillStyle = visited.has(parseInt(vertex)) ? '#B4C6FC' : '#1E293B';  // Light blue for visited, dark navy for unvisited
         ctx.beginPath();
-        ctx.arc(x, y, 20, 0, Math.PI * 2);
+        ctx.arc(x, y, 25, 0, Math.PI * 2);  // Back to original size
         ctx.fill();
 
         // Highlight current vertex
         if (parseInt(vertex) === currentVertex) {
-            ctx.strokeStyle = '#ffffff';  // White highlight for current node
-            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#60A5FA';  // Bright blue highlight
+            ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(x, y, 25, 0, Math.PI * 2);
+            ctx.arc(x, y, 30, 0, Math.PI * 2);  // Back to original highlight size
             ctx.stroke();
         }
 
         // Draw vertex label
         ctx.fillStyle = '#fff';
-        ctx.font = '16px Inter';
+        ctx.font = 'bold 16px Inter';  // Back to original font size
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(vertex, x, y);
@@ -253,10 +133,10 @@ function drawGraph() {
     // Highlight selected node for manual connections
     if (selectedNode !== null && graph[selectedNode]) {
         const { x, y } = graph[selectedNode];
-        ctx.strokeStyle = '#ffffff';  // White highlight for selected node
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#60A5FA';  // Bright blue highlight
+        ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.arc(x, y, 25, 0, Math.PI * 2);
+        ctx.arc(x, y, 30, 0, Math.PI * 2);  // Back to original highlight size
         ctx.stroke();
     }
 }
@@ -282,10 +162,10 @@ function animateTraversal(fromNode, toNode) {
                 const x = animationStartX + (animationEndX - animationStartX) * progress;
                 const y = animationStartY + (animationEndY - animationStartY) * progress;
                 
-                ctx.strokeStyle = '#ffffff';  // White animation circle
-                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#60A5FA';  // Bright blue highlight
+                ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.arc(x, y, 25, 0, Math.PI * 2);
+                ctx.arc(x, y, 30, 0, Math.PI * 2);  // Slightly larger highlight circle
                 ctx.stroke();
                 
                 animationFrameId = requestAnimationFrame(animate);
@@ -306,9 +186,14 @@ function animateTraversal(fromNode, toNode) {
 // Update information panel
 function updateInfo() {
     frontier.textContent = JSON.stringify(stack);
-    visiting.textContent = currentVertex !== null ? currentVertex : 'undefined';
+    visiting.textContent = currentVertex !== null ? `${currentVertex} (depth: ${depthMap.get(currentVertex)})` : 'undefined';
     document.getElementById('currentPath').textContent = currentPath.join(' -> ') || 'none';
 }
+
+// Update depth limit when input changes
+depthLimitInput.addEventListener('input', function() {
+    depthLimit = parseInt(this.value);
+});
 
 // Depth First Search step
 async function dfsStep() {
@@ -326,6 +211,9 @@ async function dfsStep() {
         stack.push(currentVertex);
         visited.add(currentVertex);
         currentPath = [currentVertex];
+        depthMap.clear();
+        depthMap.set(currentVertex, 0);  // Root node at depth 0
+        currentDepth = 0;
         updateInfo();
         drawGraph();
         return;
@@ -337,10 +225,13 @@ async function dfsStep() {
     // Sort neighbors by x-coordinate to ensure left-to-right traversal
     neighbors.sort((a, b) => graph[a].x - graph[b].x);
 
-    if (neighbors.length > 0) {
-        // If there are unvisited neighbors, visit the leftmost one
+    // Get current node's depth
+    currentDepth = depthMap.get(currentVertex);
+
+    if (neighbors.length > 0 && currentDepth < depthLimit) {
+        // If there are unvisited neighbors and we haven't reached depth limit
         const nextVertex = neighbors[0];
-        stack.push(currentVertex); // Push current vertex for backtracking
+        stack.push(currentVertex);
         
         // Animate transition to next vertex
         const fromNode = graph[currentVertex];
@@ -351,18 +242,10 @@ async function dfsStep() {
         currentVertex = nextVertex;
         visited.add(currentVertex);
         currentPath.push(currentVertex);
+        depthMap.set(currentVertex, currentDepth + 1);  // Set depth for new node
 
-        // Check if we've visited all nodes and are at the rightmost leaf
-        const allNodesVisited = Object.keys(graph).every(nodeId => visited.has(parseInt(nodeId)));
-        const isRightmostLeaf = currentVertex === parseInt(Object.keys(graph).reduce((rightmost, nodeId) => {
-            return graph[nodeId].x > graph[rightmost].x ? nodeId : rightmost;
-        }));
-
-        if (allNodesVisited && isRightmostLeaf) {
-            isTraversalComplete = true;
-        }
     } else {
-        // If no unvisited neighbors, backtrack
+        // If no unvisited neighbors or at depth limit, backtrack
         if (stack.length === 0) {
             isTraversalComplete = true;
             updateInfo();
@@ -381,6 +264,7 @@ async function dfsStep() {
         // Update current vertex
         currentVertex = parentVertex;
         currentPath.push(currentVertex);
+        currentDepth = depthMap.get(currentVertex);  // Update current depth
     }
 
     updateInfo();
@@ -437,7 +321,7 @@ autoPlayButton.addEventListener('click', () => {
   }
 });
 
-// Clear function
+// Update the clear function to use the new coordinates
 function clearAll() {
     // Cancel any ongoing animation
     if (animationFrameId) {
@@ -460,16 +344,33 @@ function clearAll() {
     isDragging = false;
     isAnimating = false;
     
-    // Clear the graph
-    graph = {};
-    nextNodeId = 0;
+    // Reset the graph with new coordinates
+    graph = {
+        0: { x: 400, y: 80, neighbors: [1, 2] },
+        1: { x: 250, y: 200, neighbors: [3, 4] },
+        2: { x: 550, y: 200, neighbors: [5, 6] },
+        3: { x: 150, y: 320, neighbors: [] },
+        4: { x: 350, y: 320, neighbors: [] },
+        5: { x: 450, y: 320, neighbors: [] },
+        6: { x: 650, y: 320, neighbors: [] }
+    };
+    nextNodeId = 7;
     
-    // Clear the canvas
-    ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
+    // Center the graph
+    const centerX = graphCanvas.width / 2;
+    const offsetX = centerX - 400;  // 400 is the center x-coordinate in our graph
+    
+    // Adjust all node positions based on canvas center
+    for (const nodeId in graph) {
+        graph[nodeId].x += offsetX;
+    }
     
     // Update UI
     updateInfo();
     drawGraph();
+
+    depthMap.clear();
+    currentDepth = 0;
 }
 
 // Update clear button event listener
@@ -501,6 +402,86 @@ clearVisitedButton.addEventListener('click', () => {
     updateInfo();
     drawGraph();
 });
+
+// Mouse event handlers
+function setupEventListeners() {
+    // Node creation and interaction
+    graphCanvas.addEventListener('mousedown', (e) => {
+        const rect = graphCanvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        // Check if clicked on existing node
+        for (const nodeId in graph) {
+            const node = graph[nodeId];
+            const dx = mouseX - node.x;
+            const dy = mouseY - node.y;
+            if (dx * dx + dy * dy < 400) { // 20px radius squared
+                if (e.ctrlKey) {
+                    deleteNode(parseInt(nodeId));
+                    drawGraph();
+                    return;
+                }
+                if (e.button === 0) {
+                    const clickedNodeId = parseInt(nodeId);
+                    if (selectedNode === null) {
+                        selectedNode = clickedNodeId;
+                    } else if (selectedNode === clickedNodeId) {
+                        selectedNode = null;
+                    } else {
+                        if (!graph[selectedNode].neighbors.includes(clickedNodeId)) {
+                            graph[selectedNode].neighbors.push(clickedNodeId);
+                            graph[clickedNodeId].neighbors.push(selectedNode);
+                        }
+                        selectedNode = null;
+                    }
+                    isDragging = true;
+                    lastMouseX = mouseX;
+                    lastMouseY = mouseY;
+                    drawGraph();
+                    return;
+                }
+            }
+        }
+
+        // Create new node if clicked on empty space
+        if (e.button === 0) {
+            const newNodeId = nextNodeId++;
+            graph[newNodeId] = {
+                neighbors: [],
+                x: mouseX,
+                y: mouseY
+            };
+            console.log('Created new node:', newNodeId); // Debug log
+            drawGraph();
+        }
+    });
+
+    // Node dragging
+    graphCanvas.addEventListener('mousemove', (e) => {
+        if (isDragging && selectedNode !== null) {
+            const rect = graphCanvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            graph[selectedNode].x += mouseX - lastMouseX;
+            graph[selectedNode].y += mouseY - lastMouseY;
+            
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+            drawGraph();
+        }
+    });
+
+    graphCanvas.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+}
+
+// Initialize
+setupCanvas();
+setupEventListeners();
+window.addEventListener('resize', setupCanvas);
 
 // Toggle Theory Tab
 function toggleTheory() {
