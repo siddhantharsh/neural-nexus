@@ -1,0 +1,462 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+    background-color: #f5f9ff;
+}
+
+input {
+    cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+    padding: 0px;
+    font-weight: normal;
+}
+
+.header_title {
+    font-size: 120%;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin-top: -10px;
+    color: #2d3748;
+}
+
+.panel {
+    position: fixed;
+    padding: 20px;
+    background-color: rgba(119, 149, 181, 0.85);
+    color: #2d3748;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.1);
+    cursor: default;
+}
+
+.right_panel {
+    width: 250px;
+    right: 20px;
+}
+
+#algorithm_panel {
+    right: 20px;
+    top: 20px;
+}
+
+#instructions_panel {
+    display: none;
+}
+
+#hide_instructions {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    font-size: 90%;
+    cursor: pointer;
+    color: #2d3748;
+}
+
+#hide_instruction:hover {
+    color: #1a202c;
+    text-decoration: underline;
+}
+
+.option_header {
+    font-size: 80%;
+    margin-left: 20px;
+    color: #2d3748;
+}
+
+.option_label {
+    cursor: pointer;
+    color: #2d3748;
+    font-size: 14px;
+}
+
+button {
+    border: none;
+    background: #C5D3E3;
+    border-radius: 30px;
+    font-size: 90%;
+    cursor: pointer;
+    padding: 8px 20px;
+    margin: 0 2%;
+    width: 28%;
+    color: #2d3748;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #b1c2d8;
+}
+
+.finder_section {
+    border: solid 1px #C5D3E3;
+    border-radius: 8px;
+    margin: 5px;
+    background-color: rgba(197, 211, 227, 0.3);
+}
+
+.sub_options {
+    padding: 2px;
+    font-size: 14px;
+    margin: 2px 30px 0;
+}
+
+#stats {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    padding: 12px 20px;
+    background-color: rgba(119, 149, 181, 0.85);
+    border-radius: 8px;
+    color: #2d3748;
+    font-size: 14px;
+    line-height: 1.5;
+    z-index: 1000;
+    min-width: 150px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+#stats.with-loading {
+    bottom: 80px; /* Position above the loading panel when both are visible */
+}
+
+.white {
+    color: #fff;
+}
+
+.green {
+    color: #48bb78;
+}
+
+.red {
+    color: #f56565;
+}
+
+.spinner {
+    width: 2em;
+    background: #C5D3E3;
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    color: #2d3748;
+}
+
+#play_panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(119, 149, 181, 0.85);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.1);
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.control_buttons {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.control_button {
+    border: none;
+    background: #C5D3E3;
+    border-radius: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px 15px;
+    color: #2d3748;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.control_button:hover {
+    background: #b1c2d8;
+}
+
+/* Hide heuristic and corner options */
+#heuristic_section, 
+#corner_section {
+    display: none;
+}
+
+/* Light blue background for algorithm options */
+.algorithm_options {
+    background-color: rgba(197, 211, 227, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.algorithm_choice {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.algorithm_choice input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Animations */
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.algorithm_info {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    animation: scaleIn 0.4s ease-out;
+    transition: height 0.3s ease-out;
+    min-height: 200px;
+}
+
+.algo_desc {
+    margin-bottom: 15px;
+    animation: fadeSlideIn 0.5s ease-out;
+    position: absolute;
+    width: calc(100% - 30px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.algo_desc.visible {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+}
+
+/* Container to handle the smooth height transition */
+#algorithm_info {
+    position: relative;
+    height: auto;
+    transition: height 0.3s ease-out;
+    overflow: hidden;
+}
+
+/* Ensure content inside algo_desc doesn't collapse */
+.algo_desc > * {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.algo_desc.visible > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger the transitions of inner elements */
+.algo_desc.visible h3 { transition-delay: 0.1s; }
+.algo_desc.visible p { transition-delay: 0.2s; }
+.algo_desc.visible ul { transition-delay: 0.3s; }
+.algo_desc.visible li:nth-child(1) { transition-delay: 0.4s; }
+.algo_desc.visible li:nth-child(2) { transition-delay: 0.5s; }
+.algo_desc.visible li:nth-child(3) { transition-delay: 0.6s; }
+
+/* Ensure smooth height animation for lists */
+.algo_desc ul {
+    margin: 8px 0;
+    padding-left: 20px;
+    height: auto;
+    transition: height 0.3s ease-out;
+}
+
+.algo_desc h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+    animation: slideInRight 0.6s ease-out;
+}
+
+.algo_desc p {
+    color: #34495e;
+    margin: 8px 0;
+    font-size: 0.9em;
+    line-height: 1.4;
+    animation: fadeSlideIn 0.7s ease-out;
+}
+
+.algo_desc ul {
+    margin: 8px 0;
+    padding-left: 20px;
+    animation: fadeSlideIn 0.8s ease-out;
+}
+
+.algo_desc li {
+    color: #34495e;
+    font-size: 0.9em;
+    margin: 4px 0;
+    opacity: 0;
+    animation: slideInRight 0.4s ease-out forwards;
+}
+
+/* Stagger the list items animation */
+.algo_desc li:nth-child(1) { animation-delay: 0.6s; }
+.algo_desc li:nth-child(2) { animation-delay: 0.7s; }
+.algo_desc li:nth-child(3) { animation-delay: 0.8s; }
+
+.algo_desc strong {
+    color: #2c3e50;
+    font-weight: bold;
+    display: inline-block;
+    animation: scaleIn 0.5s ease-out;
+}
+
+/* Add hover effects */
+.algo_desc {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.algo_desc:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure smooth transitions when switching algorithms */
+.algo_desc {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.algo_desc.visible {
+    opacity: 1;
+}
+
+.universal_options {
+    background-color: rgba(197, 211, 227, 0.3);
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    animation: fadeSlideIn 0.5s ease-out;
+}
+
+.option_item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+}
+
+.option_item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #7795b5;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.option_item input[type="checkbox"]:checked {
+    background-color: #7795b5;
+    border-color: #7795b5;
+}
+
+.option_item input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.option_item input[type="checkbox"]:hover {
+    transform: scale(1.05);
+    border-color: #6684a4;
+}
+
+.option_item label {
+    cursor: pointer;
+    font-size: 14px;
+    color: #2d3748;
+    user-select: none;
+    transition: color 0.3s ease;
+}
+
+.option_item label:hover {
+    color: #1a202c;
+}
+
+/* Loading status styles */
+#loading_panel {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    padding: 10px 20px;
+    background-color: rgba(119, 149, 181, 0.85);
+    border-radius: 8px;
+    color: #2d3748;
+    font-size: 14px;
+    animation: fadeIn 0.3s ease-out;
+    z-index: 1000;
+    min-width: 150px;
+    text-align: center;
+}
+
+#loading_status {
+    display: inline-block;
+    font-weight: 500;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Remove custom scrollbar styles since we don't need them anymore */
+.right_panel::-webkit-scrollbar {
+    display: none;
+}

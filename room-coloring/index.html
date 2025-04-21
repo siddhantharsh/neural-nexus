@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Coloring Algorithm Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>Room Coloring</h1>
+                <p class="subtitle">Graph Coloring Algorithm Visualization</p>
+            </div>
+
+            <div class="tools-section">
+                <h2>Tools</h2>
+                <div class="tool-buttons">
+                    <button class="tool-btn active" data-tool="draw">
+                        <i class="fas fa-pencil-alt"></i>
+                        Draw Room
+                    </button>
+                    <button class="tool-btn" data-tool="drag">
+                        <i class="fas fa-arrows-alt"></i>
+                        Drag Room
+                    </button>
+                    <button class="tool-btn" data-tool="erase">
+                        <i class="fas fa-eraser"></i>
+                        Erase
+                    </button>
+                </div>
+            </div>
+
+            <div class="algorithm-section">
+                <h2>Algorithm</h2>
+                <select id="algorithm-select" class="select-input">
+                    <option value="greedy">Greedy Coloring</option>
+                    <option value="backtracking">Backtracking</option>
+                </select>
+                <div class="color-palette">
+                    <!-- Color swatches will be added by JavaScript -->
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h2>Statistics</h2>
+                <div class="stat-item">
+                    <label>Rooms:</label>
+                    <span id="room-count" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <label>Colors Used:</label>
+                    <span id="color-count" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <label>Conflicts:</label>
+                    <span id="conflict-count" class="stat-value">0</span>
+                </div>
+            </div>
+
+            <div class="actions-section">
+                <button id="generate-btn" class="action-btn primary">
+                    <i class="fas fa-random"></i>
+                    Generate Random
+                </button>
+                <button id="color-btn" class="action-btn primary">
+                    <i class="fas fa-paint-brush"></i>
+                    Start Coloring
+                </button>
+                <button id="clear-btn" class="action-btn secondary">
+                    <i class="fas fa-trash-alt"></i>
+                    Clear Canvas
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <canvas id="canvas"></canvas>
+            <div class="canvas-overlay"></div>
+        </div>
+    </div>
+
+    <div class="info-cards-container">
+        <div class="info-card">
+            <h3><i class="fas fa-info-circle"></i> What is Room Coloring?</h3>
+            <p>Room coloring is a graph coloring problem where adjacent rooms must have different colors. It has practical applications in scheduling, register allocation, and map coloring. The goal is to color all rooms using the minimum number of colors while ensuring no adjacent rooms share the same color.</p>
+        </div>
+        <div class="info-card">
+            <h3><i class="fas fa-code"></i> The Algorithm</h3>
+            <ul>
+                <li>Greedy: Colors rooms sequentially using the first available color</li>
+                <li>Backtracking: Systematically explores all possible colorings</li>
+                <li>Ensures no adjacent rooms have the same color</li>
+                <li>Aims to minimize the number of colors used</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <h3><i class="fas fa-map-marker-alt"></i> How to Use</h3>
+            <ul>
+                <li>Click and drag to draw rooms on the canvas</li>
+                <li>Use the eraser tool to remove rooms</li>
+                <li>Generate random room layouts for testing</li>
+                <li>Choose an algorithm and watch it color the rooms</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <h3><i class="fas fa-lightbulb"></i> Fun Facts</h3>
+            <ul>
+                <li>The minimum colors needed is called the chromatic number</li>
+                <li>The Four Color Theorem proves any map needs at most 4 colors</li>
+                <li>Room coloring is NP-hard in its general form</li>
+                <li>Has applications in scheduling and resource allocation</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

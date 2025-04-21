@@ -1,0 +1,239 @@
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.01); }
+    100% { transform: scale(1); }
+}
+
+@keyframes buttonHover {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+    100% { transform: translateY(0); }
+}
+
+/* General Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f9ff;
+    color: #2d3748;
+    margin: 0;
+    padding: 1rem;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.1);
+    padding: 2rem 2rem 4rem 2rem;
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    grid-template-rows: auto auto auto 1fr;
+    gap: 15px;
+    height: calc(100vh - 20px);
+    animation: fadeIn 0.8s ease-out;
+}
+
+h1 {
+    text-align: center;
+    color: #2d3748;
+    font-size: 2.2rem;
+    margin: 20px 0 15px 0;
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+
+/* Controls Section */
+.controls {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.controls button,
+.control-button {
+    background-color: #C5D3E3;
+    color: #2d3748;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.controls button:hover,
+.control-button:hover {
+    background-color: #b1c2d8;
+    transform: translateY(-2px);
+}
+
+/* Vertex Inputs */
+.vertex-inputs {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 100px;
+    margin-bottom: 15px;
+    grid-column: 1 / -1;
+    grid-row: 3;
+}
+
+.vertex-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vertex-input-group label {
+    color: #2d3748;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.vertex-input-group input {
+    background-color: #7795b5;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 12px;
+    color: white;
+    width: 100px;
+    height: 30px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.vertex-input-group input:focus {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(119, 149, 181, 0.3);
+}
+
+/* Theory Section */
+.theory-tab {
+    background-color: #7795b5;
+    border-radius: 25px;
+    padding: 20px;
+    color: white;
+    grid-column: 1;
+    grid-row: 4;
+    height: 420px;
+    transition: all 0.3s ease;
+}
+
+.theory-content {
+    display: block;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Graph Container */
+.graph-container {
+    grid-column: 2;
+    grid-row: 4;
+    background-color: #ffffff;
+    border-radius: 25px;
+    border: 3px solid #C5D3E3;
+    padding: 15px;
+    height: calc(100% - 30px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: move;
+    transition: all 0.3s ease;
+}
+
+.graph-container:hover {
+    animation: pulse 2s infinite;
+}
+
+canvas {
+    background-color: transparent;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+/* Information Section */
+.info {
+    background-color: #7795b5;
+    border-radius: 25px;
+    padding: 20px;
+    color: white;
+    grid-column: 3;
+    grid-row: 4;
+    height: 180px;
+    transition: all 0.3s ease;
+}
+
+.info h2, .observation h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.info p, .observation p {
+    margin: 10px 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Observation Section */
+.observation {
+    background-color: #7795b5;
+    border-radius: 25px;
+    padding: 20px;
+    color: white;
+    grid-column: 3;
+    grid-row: 4;
+    height: 250px;
+    margin-top: 240px;
+    transition: all 0.3s ease;
+}
+
+/* Common text styles */
+.info, .observation, .theory-tab {
+    font-family: 'Inter', sans-serif;
+}
+
+.info h2, .observation h2, .theory-tab h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+/* Adjust spacing in observation box */
+.observation p {
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+/* Canvas Text Styles */
+#graphCanvas {
+    font-family: 'Press Start 2P', cursive;
+}
+
+.theory-tab:hover, .info:hover, .observation:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}

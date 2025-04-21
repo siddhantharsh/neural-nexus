@@ -36,6 +36,7 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .container {
@@ -46,9 +47,11 @@ body {
     box-shadow: 0 4px 20px rgba(44, 62, 80, 0.1);
     padding: 2rem;
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 400px;
     gap: 40px;
     animation: fadeIn 0.8s ease-out;
+    height: 100%;
+    overflow: visible;
 }
 
 h1 {
@@ -105,22 +108,34 @@ h2, h3 {
     aspect-ratio: 1;
 }
 
+/* Right Panel Container */
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: calc(100vh - 4rem);
+    overflow: visible;
+    animation: slideIn 0.5s ease-out;
+    width: 100%;
+    padding: 10px;
+    margin: -10px;
+}
+
 /* Controls Section */
 .controls-section {
     background-color: var(--primary-color);
     border-radius: 25px;
-    padding: 20px;
+    padding: 25px;
     color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    animation: fadeIn 0.5s ease-out;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+    animation: fadeInRight 0.5s ease-out;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    will-change: transform;
 }
 
 .controls-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: scale(1.01);
 }
 
 .controls {
@@ -133,12 +148,14 @@ button {
     background-color: var(--secondary-color);
     color: var(--text-color);
     border: none;
-    padding: 12px 35px;
+    padding: 12px;
     border-radius: 30px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
+    white-space: nowrap;
+    width: 100%;
 }
 
 button:hover {
@@ -266,84 +283,33 @@ button:disabled {
     content: '✨';
 }
 
-/* Knowledge Base */
-.knowledge-base {
-    background-color: var(--primary-color);
-    border-radius: 25px;
-    padding: 20px;
-    color: white;
-    margin-top: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.knowledge-base:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.knowledge-base ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.knowledge-base li {
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    animation: fadeIn 0.3s ease-out;
-}
-
-.knowledge-base li:last-child {
-    border-bottom: none;
-}
-
-.knowledge-base .game-over {
-    color: white;
-    font-weight: bold;
-    font-size: 1.2em;
-    padding: 15px 0;
-    text-align: center;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    margin: 10px 0;
-    background-color: rgba(231, 76, 60, 0.2);
-    animation: fadeIn 0.5s ease-out;
-}
-
-.knowledge-base .game-win {
-    color: white;
-    font-weight: bold;
-    font-size: 1.2em;
-    padding: 15px 0;
-    text-align: center;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    margin: 10px 0;
-    background-color: rgba(46, 204, 113, 0.2);
-    animation: fadeIn 0.5s ease-out;
-}
-
 /* Status Panel */
 .status-panel {
     background-color: var(--primary-color);
     border-radius: 25px;
-    padding: 20px;
+    padding: 25px;
     color: white;
-    margin-top: 20px;
-    animation: fadeIn 0.5s ease-out;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+    animation: fadeInRight 0.5s ease-out 0.2s backwards;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    will-change: transform;
 }
 
 .status-panel:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: scale(1.01);
 }
 
 .status-panel p {
-    margin: 10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 8px 0;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.status-panel span {
+    font-weight: 500;
 }
 
 /* Theory Section */
@@ -383,12 +349,133 @@ button:disabled {
     line-height: 1.6;
 }
 
+/* Knowledge Base */
+.knowledge-base {
+    background-color: var(--primary-color);
+    border-radius: 25px;
+    padding: 25px;
+    color: white;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeInRight 0.5s ease-out 0.4s backwards;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+
+.knowledge-base:hover {
+    transform: scale(1.01);
+}
+
+.knowledge-base h3 {
+    margin: 0 0 15px 0;
+    color: white;
+}
+
+#knowledge-list {
+    list-style: none;
+    padding-right: 8px;
+    margin: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+#knowledge-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+#knowledge-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#knowledge-list::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+#knowledge-list li {
+    padding: 12px 16px;
+    margin: 6px 0;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    animation: slideInLeft 0.3s ease-out forwards;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+#knowledge-list li.danger {
+    background: rgba(41, 128, 185, 0.2);
+    border-left: 4px solid #2980b9;
+}
+
+#knowledge-list li.warning {
+    background: rgba(52, 152, 219, 0.2);
+    border-left: 4px solid #3498db;
+}
+
+#knowledge-list li.success {
+    background: rgba(41, 128, 185, 0.2);
+    border-left: 4px solid #2980b9;
+}
+
+#knowledge-list li:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Animations */
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .container {
-        margin: 0;
-        border-radius: 0;
         grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .right-panel {
+        width: 100%;
+        max-width: none;
     }
     
     .game-container {

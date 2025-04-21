@@ -1,87 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpha-Beta Pruning Visualization</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <h1>Alpha-Beta Pruning</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Alpha-Beta Visualizer</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel='icon' href='images/favicon.ico'>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="fade-in">Alpha-Beta Visualizer</h1>
 
-        <!-- Controls -->
-        <div class="controls">
-            <button id="step">Next Step</button>
-            <button id="autoPlay">Autoplay</button>
-            <button id="reset">Reset</button>
-        </div>
-
-        <!-- Node Controls -->
-        <div class="vertex-inputs">
-            <div class="vertex-input-group">
-                <label for="nodeValue">Node Value:</label>
-                <input type="number" id="nodeValue" placeholder="Enter value">
-                <button id="setNodeValue">Set Value</button>
+            <!-- Controls -->
+            <div class="controls fade-in fade-in-delay-1">
+                <button id="run">Run</button>
+                <button id="step">Step</button>
+                <button id="reset">Reset</button>
             </div>
-            <div class="vertex-input-group">
-                <label for="treeDepth">Tree Depth:</label>
-                <input type="number" id="treeDepth" value="3" min="1" max="5">
-            </div>
-            <div class="vertex-input-group">
-                <label for="branchingFactor">Branching Factor:</label>
-                <input type="number" id="branchingFactor" value="2" min="2" max="3">
-            </div>
-            <div class="vertex-input-group">
-                <label for="playerType">First Player:</label>
-                <select id="playerType">
-                    <option value="max">Maximizer</option>
-                    <option value="min">Minimizer</option>
-                </select>
+
+            <div class="main-content fade-in fade-in-delay-2">
+                <!-- Left Panel -->
+                <div class="side-panel theory-tab">
+                    <div class="theory-content">
+                        <p><strong>Alpha-Beta Pruning</strong> is an optimization technique for the minimax algorithm. It reduces the number of nodes evaluated in the search tree by eliminating branches that cannot influence the final decision.</p>
+                        
+                        <p><strong>How it works:</strong> The algorithm maintains two values, alpha and beta, which represent the minimum score that the maximizing player is assured of and the maximum score that the minimizing player is assured of, respectively.</p>
+
+                        <p><strong>Benefits:</strong> Alpha-beta pruning can significantly reduce the number of nodes evaluated, making the algorithm much more efficient, especially in games with high branching factors.</p>
+                    </div>
+                </div>
+
+                <!-- Center Content -->
+                <div class="center-content">
+                    <!-- Node Options -->
+                    <div class="vertex-inputs fade-in fade-in-delay-3">
+                        <div id="static" class="vertex-input-group">
+                            <label for="staticValue">Enter Value:</label>
+                            <input type="number" id="staticValue" placeholder="Value">
+                        </div>
+                        <button id="setValue" class="action-button">Set Value</button>
+                        <button id="addChild" class="action-button">Add Child</button>
+                        <button id="deleteNode" class="action-button">Delete Node</button>
+                    </div>
+
+                    <canvas id="canvas"></canvas>
+                </div>
+
+                <!-- Right Panel -->
+                <div class="side-panel info fade-in fade-in-delay-2">
+                    <h2>Node Information</h2>
+                    <div id="unselectedText" class="info-message">
+                        <p>No node selected</p>
+                        <p class="info-hint">Click on any node to view its details</p>
+                    </div>
+                    <p id="runningText" class="info-message warning" style="display: none">Reset visualization before editing nodes</p>
+                    <div id="nodeOptions" class="node-details" style="display: none">
+                        <div class="info-row">
+                            <span class="info-label">Type:</span>
+                            <span id="nodeType" class="info-value">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Value:</span>
+                            <span id="nodeValue" class="info-value">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Children:</span>
+                            <span id="nodeChildren" class="info-value">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Alpha:</span>
+                            <span id="nodeAlpha" class="info-value">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Beta:</span>
+                            <span id="nodeBeta" class="info-value">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Progress Section -->
+                    <div class="algorithm-progress">
+                        <h3>Algorithm Progress</h3>
+                        <div id="stepInfo" class="step-info">
+                            <div class="step-counter">
+                                <span class="info-label">Step:</span>
+                                <span id="currentStep" class="info-value">0</span>
+                            </div>
+                            <div id="stepDescription" class="step-description">
+                                Click 'Run' or 'Step' to start the algorithm
+                            </div>
+                        </div>
+                        <div id="algorithmStats" class="algorithm-stats" style="display: none">
+                            <div class="stats-row">
+                                <span class="info-label">Nodes Evaluated:</span>
+                                <span id="nodesEvaluated" class="info-value">0</span>
+                            </div>
+                            <div class="stats-row">
+                                <span class="info-label">Nodes Pruned:</span>
+                                <span id="nodesPruned" class="info-value">0</span>
+                            </div>
+                            <div class="stats-row">
+                                <span class="info-label">Efficiency Gain:</span>
+                                <span id="efficiencyGain" class="info-value">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Theory Section -->
-        <div class="theory-tab">
-            <div class="theory-content">
-                <p><strong>Alpha-Beta Pruning</strong> is an optimization technique for the minimax algorithm that reduces the number of nodes evaluated in the search tree.</p>
-                <p><strong>Alpha (α):</strong> Best value that the maximizer currently can guarantee at that level or above.</p>
-                <p><strong>Beta (β):</strong> Best value that the minimizer currently can guarantee at that level or above.</p>
-                <p><strong>Pruning occurs</strong> when a node's value cannot possibly influence the final decision.</p>
-                <p><strong>Instructions:</strong></p>
-                <ul>
-                    <li>Click on a node to select it</li>
-                    <li>Enter a value and click "Set Value"</li>
-                    <li>Use Next Step or Autoplay to run the algorithm</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Graph Container -->
-        <div class="graph-container">
-            <canvas id="treeCanvas"></canvas>
-        </div>
-
-        <!-- Information -->
-        <div class="info">
-            <h2>Search Information</h2>
-            <p><strong>Current Player:</strong> <span id="currentPlayer">undefined</span></p>
-            <p><strong>Alpha Value:</strong> <span id="alphaValue">-∞</span></p>
-            <p><strong>Beta Value:</strong> <span id="betaValue">+∞</span></p>
-            <p><strong>Nodes Pruned:</strong> <span id="pruneCount">0</span></p>
-        </div>
-
-        <!-- Observation -->
-        <div class="observation" id="observation">
-            <h2>Current State</h2>
-            <p><strong>Selected Node:</strong> <span id="selectedNode">None</span></p>
-            <p><strong>Node Value:</strong> <span id="nodeValueDisplay">undefined</span></p>
-            <p><strong>Node Type:</strong> <span id="nodeType">undefined</span></p>
-            <p><strong>Pruning Status:</strong> <span id="pruningStatus">No pruning</span></p>
-            <p><strong>Decision:</strong> <span id="decision">undefined</span></p>
-        </div>
-    </div>
-    <script src="script.js"></script>
-</body>
+        <script type="module" src="js/main.js"></script>
+    </body>
 </html>

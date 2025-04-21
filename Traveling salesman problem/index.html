@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traveling Salesman Problem Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+</head>
+<body>
+    <div class="app-container">
+        <div class="visualization-section">
+            <div class="container">
+                <div class="sidebar">
+                    <h1 class="sidebar-title">Traveling Salesman Problem</h1>
+                    <div class="sidebar-section">
+                        <h2>Controls</h2>
+                        <div class="control-group">
+                            <button id="addPoint" class="btn"><i class="fas fa-plus"></i> Add Point</button>
+                            <button id="deleteLastPoint" class="btn"><i class="fas fa-undo"></i> Delete Last Point</button>
+                            <button id="clearPoints" class="btn"><i class="fas fa-trash"></i> Clear Points</button>
+                            <button id="randomPoints" class="btn"><i class="fas fa-random"></i> Random Points</button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h2>Solve</h2>
+                        <div class="control-group">
+                            <button id="solve" class="btn primary"><i class="fas fa-play"></i> Solve</button>
+                            <button id="step" class="btn"><i class="fas fa-step-forward"></i> Step</button>
+                            <button id="reset" class="btn"><i class="fas fa-undo"></i> Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h2>Statistics</h2>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <label>Points:</label>
+                                <span id="pointCount">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <label>Path Length:</label>
+                                <span id="pathLength">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <label>Steps:</label>
+                                <span id="stepCount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div id="map"></div>
+                    <canvas id="canvas"></canvas>
+                    <div class="canvas-overlay" id="canvasOverlay">
+                        Click on the map to add points
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-content">
+                <div class="info-grid">
+                    <div class="info-card" data-aos="fade-up">
+                        <h3><i class="fas fa-info-circle"></i> What is TSP?</h3>
+                        <p>The Traveling Salesman Problem (TSP) is one of the most famous problems in computer science. It asks: "Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city exactly once and returns to the origin city?"</p>
+                    </div>
+                    <div class="info-card" data-aos="fade-up" data-aos-delay="100">
+                        <h3><i class="fas fa-code"></i> The Algorithm</h3>
+                        <p>This visualization uses a genetic algorithm to find an optimal solution. The algorithm works by:</p>
+                        <ul>
+                            <li>Creating an initial population of random routes</li>
+                            <li>Evaluating each route's fitness (total distance)</li>
+                            <li>Selecting the best routes to create new solutions</li>
+                            <li>Applying mutations to maintain diversity</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" data-aos="fade-up" data-aos-delay="200">
+                        <h3><i class="fas fa-map-marker-alt"></i> How to Use</h3>
+                        <ul>
+                            <li>Click on the map to add cities (points)</li>
+                            <li>Use 'Random Points' to generate random cities</li>
+                            <li>Click 'Solve' to find the optimal route</li>
+                            <li>Use 'Step' to see the solution build step by step</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" data-aos="fade-up" data-aos-delay="300">
+                        <h3><i class="fas fa-lightbulb"></i> Fun Facts</h3>
+                        <ul>
+                            <li>TSP is an NP-hard problem in combinatorial optimization</li>
+                            <li>It has applications in logistics, microchip manufacturing, and DNA sequencing</li>
+                            <li>The number of possible routes grows factorially with the number of cities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            offset: 300,
+            once: true,
+            mirror: false,
+            anchorPlacement: 'top-bottom'
+        });
+    </script>
+</body>
+</html> 

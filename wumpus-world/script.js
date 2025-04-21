@@ -177,11 +177,37 @@ class GameState {
             this.agentY = newY;
             this.grid[newY][newX].visited = true;
             
-            if (this.grid[newY][newX].hasWumpus) {
+            // Update knowledge base with current position
+            this.updateKnowledge(`Moved to position (${newX}, ${newY})`);
+            
+            // Check and report percepts
+            const currentCell = this.grid[newY][newX];
+            let percepts = [];
+            
+            if (currentCell.hasBreeze) {
+                percepts.push('breeze');
+                this.updateKnowledge('I feel a breeze... There must be a pit nearby!');
+            }
+            
+            if (currentCell.hasStench) {
+                percepts.push('stench');
+                this.updateKnowledge('I smell a stench... The Wumpus must be close!');
+            }
+            
+            if (currentCell.hasGold) {
+                percepts.push('glitter');
+                this.updateKnowledge('I see something glittering... There is gold here!');
+            }
+            
+            if (percepts.length === 0) {
+                this.updateKnowledge('This room seems safe.');
+            }
+            
+            if (currentCell.hasWumpus) {
                 this.updateKnowledge('Game Over! You encountered the Wumpus!');
                 this.gameOver = true;
                 this.updateButtonStates();
-            } else if (this.grid[newY][newX].hasPit) {
+            } else if (currentCell.hasPit) {
                 this.updateKnowledge('Game Over! You fell into a pit!');
                 this.gameOver = true;
                 this.updateButtonStates();
@@ -189,8 +215,10 @@ class GameState {
             
             this.updateUI();
             return true;
+        } else {
+            this.updateKnowledge('Cannot move forward - wall detected!');
+            return false;
         }
-        return false;
     }
 
     turnLeft() {
@@ -201,6 +229,7 @@ class GameState {
             case 'down': this.direction = 'right'; break;
             case 'left': this.direction = 'down'; break;
         }
+        this.updateKnowledge(`Turned left, now facing ${this.direction}`);
         this.updateUI();
     }
 
@@ -212,6 +241,7 @@ class GameState {
             case 'down': this.direction = 'left'; break;
             case 'left': this.direction = 'up'; break;
         }
+        this.updateKnowledge(`Turned right, now facing ${this.direction}`);
         this.updateUI();
     }
 
@@ -219,6 +249,13 @@ class GameState {
         const list = document.getElementById('knowledge-list');
         const item = document.createElement('li');
         item.textContent = message;
+        if (message.includes('Game Over')) {
+            item.classList.add('danger');
+        } else if (message.includes('breeze') || message.includes('stench')) {
+            item.classList.add('warning');
+        } else if (message.includes('gold') || message.includes('glitter')) {
+            item.classList.add('success');
+        }
         list.insertBefore(item, list.firstChild);
     }
 

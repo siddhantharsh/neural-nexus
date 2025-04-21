@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>PathFinding.js</title>
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./lib/themes/jquery.ui.all.css" />
+    <style>
+      .algorithm-links {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        background: rgba(119, 149, 181, 0.95);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+      }
+
+      .algorithm-links h1 {
+        color: #2d3748;
+        margin-bottom: 25px;
+        font-size: 24px;
+      }
+
+      .algorithm-button {
+        display: block;
+        width: 300px;
+        margin: 15px auto;
+        padding: 15px 25px;
+        background: #C5D3E3;
+        border: none;
+        border-radius: 8px;
+        color: #2d3748;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .algorithm-button:hover {
+        background: #b1c2d8;
+        transform: translateY(-2px);
+      }
+
+      .algorithm-description {
+        font-size: 14px;
+        color: #4a5568;
+        margin-top: 5px;
+      }
+    </style>
+
+    <script type="text/javascript" src="./lib/raphael-min.js"></script>
+    <script type="text/javascript" src="./lib/es5-shim.min.js"></script>
+    <script type="text/javascript" src="./lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="./lib/state-machine.min.js"></script>
+    <script type="text/javascript" src="./lib/async.min.js"></script>
+
+    <script type="text/javascript" src="./lib/ui/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.mouse.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.draggable.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.accordion.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.slider.min.js"></script>
+
+    <script type="text/javascript" src="./lib/pathfinding-browser.min.js"></script>
+
+    <script type="text/javascript" src="./js/view.js"></script>
+    <script type="text/javascript" src="./js/controller.js"></script>
+    <script type="text/javascript" src="./js/panel.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+  </head>
+  <body>
+    <div class="algorithm-links">
+      <h1>Pathfinding Algorithm Visualizations</h1>
+      
+      <a href="astar.html" class="algorithm-button">
+        A* Search Algorithm
+        <div class="algorithm-description">Optimal pathfinding using heuristic estimation</div>
+      </a>
+      
+      <a href="dfs.html" class="algorithm-button">
+        Depth-First Search
+        <div class="algorithm-description">Systematic exploration of paths to their full depth</div>
+      </a>
+      
+      <a href="gbfs.html" class="algorithm-button">
+        Greedy Best-First Search
+        <div class="algorithm-description">Fast pathfinding using pure heuristic approach</div>
+      </a>
+    </div>
+
+    <div id="draw_area"></div>
+
+    <div id="instructions_panel" class="panel">
+      <header>
+        <h2 class="header_title">Instructions</h2>
+        <span id="hide_instructions">hide</span>
+      </header>
+      Click within the <span class="white">white</span> grid and drag your mouse to draw obstacles. <br>
+      Drag the <span class="green">green</span> node to set the start position. <br>
+      Drag the <span class="red">red</span> node to set the end position. <br>
+      Choose an algorithm from the right-hand panel. <br>
+      Click Start Search in the lower-right corner to start the animation.
+    </div>
+
+    <div id="algorithm_panel" class="panel right_panel">
+      <header><h2 class="header_title">Select Algorithm</h2></header>
+
+      <div class="algorithm_options">
+        <div class="algorithm_choice">
+          <input type="radio" name="algorithm" id="astar_header" value="astar" checked />
+          <label for="astar_header" class="option_label">A*</label>
+        </div>
+        <div class="algorithm_choice">
+          <input type="radio" name="algorithm" id="breadthfirst_header" value="dfs" />
+          <label for="breadthfirst_header" class="option_label">Depth-First Search</label>
+        </div>
+        <div class="algorithm_choice">
+          <input type="radio" name="algorithm" id="bestfirst_header" value="bfs" />
+          <label for="bestfirst_header" class="option_label">Best-First Search</label>
+        </div>
+      </div>
+
+      <div class="control_buttons">
+        <button id="button1" class="control_button">Start Search</button>
+        <button id="button2" class="control_button">Pause Search</button>
+        <button id="button3" class="control_button">Clear Walls</button>
+      </div>
+
+      <div id="stats"></div>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        // Handle algorithm selection
+        $('.algorithm_choice input[type="radio"]').change(function() {
+          $('.finder_section').hide();
+          $('#' + $(this).attr('id').replace('_header', '_section')).show();
+        });
+      });
+    </script>
+  </body>
+</html>

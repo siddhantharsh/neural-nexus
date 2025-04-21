@@ -63,7 +63,7 @@ h1 {
     margin-bottom: 15px;
 }
 
-.controls button {
+.controls button, .control-button {
     background-color: #C5D3E3;
     color: #2d3748;
     border: none;
@@ -74,11 +74,14 @@ h1 {
     transition: all 0.3s ease;
     min-width: 140px;
     font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
 }
 
-.controls button:hover {
+.controls button:hover, .control-button:hover {
     background-color: #b1c2d8;
-    animation: buttonHover 0.5s ease;
+    transform: translateY(-2px);
 }
 
 /* Vertex Inputs */
@@ -228,4 +231,9 @@ canvas {
 .theory-tab:hover, .info:hover, .observation:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove the back button styles */
+.back-button, .back-link {
+    display: none;
 }

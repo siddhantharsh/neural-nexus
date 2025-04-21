@@ -1,0 +1,789 @@
+:root {
+    --primary-color: #7F97B9;
+    --background-color: #ffffff;
+    --sidebar-bg: #7F97B9;
+    --text-color: #2D3748;
+    --border-color: #E2E8F0;
+    --hover-color: #A5B4C7;
+    --button-text: #ffffff;
+    --button-bg: rgba(255, 255, 255, 0.1);
+    --button-hover: rgba(255, 255, 255, 0.2);
+    --primary-button-bg: #4A90E2;
+    --primary-button-hover: #357ABD;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInTop {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleInFade {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes drawLine {
+    from {
+        stroke-dashoffset: 1000;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fadeLine {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOutLine {
+    from {
+        opacity: 0.8;
+        stroke-dashoffset: 0;
+    }
+    to {
+        opacity: 0;
+        stroke-dashoffset: 1000;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.visualization-section {
+    height: 100vh;
+    min-height: 600px;
+    position: relative;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.sidebar {
+    width: 300px;
+    background: var(--sidebar-bg);
+    border-radius: 15px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    animation: slideInLeft 0.8s ease-out;
+    color: var(--button-text);
+}
+
+.sidebar-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--button-text);
+    margin-bottom: 0.3rem;
+    text-align: center;
+    animation: scaleInFade 0.6s ease-out;
+}
+
+.sidebar-section {
+    animation: fadeInSlideUp 0.5s ease-out both;
+}
+
+.sidebar-section:nth-child(1) { animation-delay: 0.2s; }
+.sidebar-section:nth-child(2) { animation-delay: 0.4s; }
+.sidebar-section:nth-child(3) { animation-delay: 0.6s; }
+.sidebar-section:nth-child(4) { animation-delay: 0.8s; }
+
+.sidebar-section h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--button-text);
+    margin-bottom: 0.5rem;
+    animation: slideInTop 0.5s ease-out;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.btn {
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--button-bg);
+    color: var(--button-text);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: slideInFromRight 0.4s ease-out both;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.control-group .btn:nth-child(1) { animation-delay: 0.3s; }
+.control-group .btn:nth-child(2) { animation-delay: 0.4s; }
+.control-group .btn:nth-child(3) { animation-delay: 0.5s; }
+.control-group .btn:nth-child(4) { animation-delay: 0.6s; }
+
+.btn:hover {
+    background: var(--button-hover);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn.primary {
+    background: var(--primary-button-bg);
+    border-color: transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn.primary:hover {
+    background: var(--primary-button-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn i {
+    font-size: 0.9rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.select {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    background: var(--hover-color);
+    color: var(--button-text);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.select:hover {
+    border-color: var(--primary-color);
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    animation: slideInFromRight 0.4s ease-out both;
+}
+
+.stats .stat-item:nth-child(1) { animation-delay: 0.7s; }
+.stats .stat-item:nth-child(2) { animation-delay: 0.8s; }
+.stats .stat-item:nth-child(3) { animation-delay: 0.9s; }
+
+.stat-item label {
+    color: var(--button-text);
+    font-size: 0.9rem;
+}
+
+.stat-item span {
+    font-weight: 500;
+    color: var(--button-text);
+}
+
+.info-panel {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--button-text);
+    animation: fadeIn 1s ease-out;
+    animation-delay: 1s;
+    animation-fill-mode: both;
+}
+
+.info-panel p {
+    margin-bottom: 0.8rem;
+    animation: slideInTop 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.info-panel ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0.8rem;
+}
+
+.info-panel li {
+    padding: 0.4rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    animation: slideInLeft 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.info-panel li:nth-child(1) { animation-delay: 1.2s; }
+.info-panel li:nth-child(2) { animation-delay: 1.3s; }
+.info-panel li:nth-child(3) { animation-delay: 1.4s; }
+.info-panel li:nth-child(4) { animation-delay: 1.5s; }
+.info-panel li:nth-child(5) { animation-delay: 1.6s; }
+
+.info-panel li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+.info-panel .note {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 0;
+    animation: fadeIn 0.5s ease-out;
+    animation-delay: 1.8s;
+    animation-fill-mode: both;
+}
+
+.main-content {
+    flex: 1;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    animation: scaleInFade 0.8s ease-out;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeInSlideUp 1s ease-out 0.3s forwards;
+}
+
+#canvas {
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: transparent;
+}
+
+.canvas-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    pointer-events: none;
+    z-index: 1000;
+    background: rgba(74, 144, 226, 0.4);
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    animation: fadeInMessage 0.5s ease-out forwards;
+    opacity: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes fadeInMessage {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -40%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Add animation for markers */
+.leaflet-marker-icon {
+    animation: scaleIn 0.3s ease-out;
+}
+
+/* Add animation for polylines */
+.leaflet-polyline {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLine 1s ease-out forwards;
+}
+
+/* Style for all polylines */
+.leaflet-pane path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLine 1.5s ease-out forwards, fadeLine 0.5s ease-out forwards;
+}
+
+/* Style for polylines when resetting */
+.leaflet-pane path.reset-line {
+    animation: fadeOutLine 0.5s ease-out forwards;
+}
+
+/* Style for step-by-step visualization */
+.leaflet-pane path.step-line {
+    stroke-dasharray: 10;
+    animation: drawStepLine 0.8s ease-out forwards,
+               dashMove 1.5s linear infinite,
+               fadeStepLine 0.8s ease-out forwards;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Make lines thicker and more visible */
+.leaflet-pane path {
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* Add glow effect to current active line */
+.leaflet-pane path.active-line {
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+    stroke-width: 4;
+    opacity: 1;
+}
+
+.info-section {
+    padding: 2rem 0;
+    background: var(--background-color);
+}
+
+.info-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.info-content h1 {
+    text-align: left;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.info-content > p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+    max-width: 900px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.info-card {
+    background: #7F97B9;
+    border-radius: 15px;
+    padding: 2rem;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.info-card.aos-animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.info-card h3 {
+    color: #ffffff;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.info-card i {
+    color: #ffffff;
+}
+
+.info-card p {
+    color: #ffffff;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.info-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-card li {
+    color: #ffffff;
+    padding: 0.5rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+    line-height: 1.4;
+}
+
+.info-card li:before {
+    content: "•";
+    color: #ffffff;
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+}
+
+/* Add smooth scrolling to the page */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+
+    .sidebar-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .main-content {
+        height: 60vh;
+    }
+
+    .info-section {
+        padding: 2rem 1rem;
+    }
+
+    .info-content h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+.distance-tooltip {
+    background-color: rgba(74, 144, 226, 0.9);
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    animation: fadeIn 0.3s ease-out;
+    white-space: nowrap;
+}
+
+.distance-tooltip::before {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Home marker styles */
+.home-marker {
+    display: block;
+}
+
+.home-marker-container {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+}
+
+.home-marker-icon {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #4A90E2;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: homeMarkerPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.home-marker-icon::before {
+    content: '⌂';
+    color: white;
+    font-size: 14px;
+    line-height: 1;
+    margin-top: -1px;
+    transform: translateY(-1px);
+}
+
+.marker-point {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #4A90E2;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: homeMarkerPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.marker-pulse, .home-marker-pulse {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(74, 144, 226, 0.3);
+    border-radius: 50%;
+    z-index: 999;
+    pointer-events: none;
+    animation: homePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.marker-pulse {
+    width: 24px;
+    height: 24px;
+}
+
+@keyframes homeMarkerPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0) translateY(20px);
+        opacity: 0;
+    }
+    60% {
+        transform: translate(-50%, -50%) scale(1.2) translateY(-4px);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes homePulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.8;
+    }
+}
+
+@keyframes drawStepLine {
+    from {
+        stroke-dashoffset: 1000;
+        opacity: 0;
+    }
+    to {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes dashMove {
+    from {
+        stroke-dashoffset: 20;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fadeStepLine {
+    0% {
+        stroke-width: 2;
+        filter: drop-shadow(0 0 0 rgba(74, 144, 226, 0));
+    }
+    50% {
+        stroke-width: 4;
+        filter: drop-shadow(0 0 8px rgba(74, 144, 226, 0.6));
+    }
+    100% {
+        stroke-width: 3;
+        filter: drop-shadow(0 0 4px rgba(74, 144, 226, 0.3));
+    }
+}
+
+/* Update the polyline styles for step visualization */
+.leaflet-pane path.step-line {
+    stroke: #4A90E2;
+    stroke-width: 3;
+    stroke-dasharray: 10;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+/* Add hover effect for the lines */
+.leaflet-pane path.step-line:hover {
+    stroke-width: 4;
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(74, 144, 226, 0.5));
+} 
