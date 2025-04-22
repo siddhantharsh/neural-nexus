@@ -1,6 +1,7 @@
 # Virtual Lab - Algorithm Visualizations
 
 An interactive web-based platform for visualizing and learning various algorithms through hands-on experimentation and step-by-step visualization.
+For live demo, go to https://neuralnexuslab.netlify.app/
 
 ## Current Visualizations
 
