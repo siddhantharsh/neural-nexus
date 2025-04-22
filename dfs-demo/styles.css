@@ -59,17 +59,8 @@ h1 {
     transform: translateY(-2px);
 }
 
-.controls button:active, .visualization-button:active {
+.controls button:active {
     transform: translateY(0);
-}
-
-.visualization-button {
-    background-color: #7795b5;
-    color: white;
-}
-
-.visualization-button:hover {
-    background-color: #6684a4;
 }
 
 /* Vertex Inputs */

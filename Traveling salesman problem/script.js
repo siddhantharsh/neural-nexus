@@ -614,30 +614,27 @@ function resetCalculation() {
     isCalculating = false;
     currentGeneration = 0;
     bestDistance = Infinity;
+    currentPopulation = null;
     bestPath = [];
     currentStepPath = [];
     unvisitedPoints = [];
     currentPointIndex = -1;
-    actualSteps = 0;
+    actualSteps = 0;  // Reset step count
     
-    // Remove existing polylines and tooltips with fade-out animation
-    map.eachLayer((layer) => {
-        if (layer instanceof L.Polyline || layer instanceof L.Tooltip) {
-            if (layer instanceof L.Polyline) {
-                layer.getElement()?.classList.add('reset-line');
-            }
-            setTimeout(() => {
-                map.removeLayer(layer);
-            }, 500); // Match the animation duration
-        }
-    });
-    
+    // Enable all buttons
     document.getElementById('solve').disabled = false;
     document.getElementById('step').disabled = false;
     document.getElementById('addPoint').disabled = false;
     document.getElementById('clearPoints').disabled = false;
     document.getElementById('randomPoints').disabled = false;
     document.getElementById('deleteLastPoint').disabled = false;
+    
+    // Clear the path
+    map.eachLayer((layer) => {
+        if (layer instanceof L.Polyline || layer instanceof L.Tooltip) {
+            map.removeLayer(layer);
+        }
+    });
     
     updateStatistics();
 }
@@ -670,6 +667,7 @@ function performStep() {
         currentPointIndex = unvisitedPoints.shift(); // Start with first point
         currentStepPath.push(currentPointIndex);
         bestPath = currentStepPath;
+        actualSteps = 0;  // Initialize step count to 0
         
         // Find and connect to the nearest point immediately
         const nearestIndex = findNearestPoint(currentPointIndex, unvisitedPoints);
@@ -678,6 +676,7 @@ function performStep() {
             currentStepPath.push(nearestIndex);
             currentPointIndex = nearestIndex;
             bestPath = currentStepPath;
+            actualSteps++;  // Increment to 1 for the first step
         }
         
         drawStepPath();
@@ -695,12 +694,14 @@ function performStep() {
         currentStepPath.push(nearestIndex);
         currentPointIndex = nearestIndex;
         bestPath = currentStepPath;
+        actualSteps++;  // Increment step count
         drawStepPath();
         currentGeneration++;
     } else if (currentStepPath.length === points.length) {
         // Complete the cycle by returning to the start
         currentStepPath.push(currentStepPath[0]);
         bestPath = currentStepPath;
+        actualSteps++;  // Increment step count for returning to start
         drawStepPath();
         // Disable step button as we're done
         document.getElementById('step').disabled = true;

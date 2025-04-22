@@ -144,6 +144,14 @@ function setupEventListeners() {
     
     // Add color button listener
     document.getElementById('color-btn').addEventListener('click', startColoring);
+    
+    // Add erase functionality
+    canvas.addEventListener('mousedown', eraseRoom);
+    canvas.addEventListener('mousemove', (e) => {
+        if (e.buttons === 1) { // Left mouse button is held down
+            eraseRoom(e);
+        }
+    });
 }
 
 // Color palette setup
@@ -218,6 +226,30 @@ function endDrawing() {
 function redrawRooms() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
+    // Draw adjacency lines first
+    ctx.save();
+    ctx.globalAlpha = 0.2;
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]); // Create dashed lines
+    
+    for (const roomId in adjacencyGraph) {
+        const room1 = rooms.find(r => r.id === parseInt(roomId));
+        if (room1) {
+            adjacencyGraph[roomId].forEach(adjId => {
+                const room2 = rooms.find(r => r.id === adjId);
+                if (room2) {
+                    // Draw line between room centers
+                    ctx.beginPath();
+                    ctx.moveTo(room1.center.x, room1.center.y);
+                    ctx.lineTo(room2.center.x, room2.center.y);
+                    ctx.stroke();
+                }
+            });
+        }
+    }
+    ctx.restore();
+    
     // Sort rooms to ensure proper layering (dragged room on top)
     const sortedRooms = [...rooms].sort((a, b) => {
         if (a === draggedRoom) return 1;
@@ -240,29 +272,25 @@ function redrawRooms() {
         
         // Add transparency for overlapping rooms
         if (room === draggedRoom) {
-            ctx.globalAlpha = 0.8; // Slightly transparent when dragging
+            ctx.globalAlpha = 0.8;
         } else {
-            ctx.globalAlpha = 1.0;
+            ctx.globalAlpha = 0.9; // Slightly transparent to show overlaps
         }
         
         ctx.fill();
         
-        // Draw room border with different styles for highlighted and dragged states
+        // Draw room border with different styles
         if (room === draggedRoom) {
-            // Dragged room - gold border with animation
             ctx.strokeStyle = '#FFD700';
             ctx.lineWidth = 3;
-            // Add subtle pulsing effect for dragged room
             const pulse = Math.sin(Date.now() / 200) * 2;
             ctx.lineWidth = 3 + pulse;
         } else if (room === highlightedRoom) {
-            // Highlighted room - blue border
             ctx.strokeStyle = '#2196F3';
             ctx.lineWidth = 2;
         } else {
-            // Normal room - black border
             ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 1;
+            ctx.lineWidth = 2;
         }
         ctx.stroke();
         
@@ -295,14 +323,32 @@ function updateAdjacencyGraph() {
 }
 
 function areRoomsAdjacent(room1, room2) {
-    const threshold = 20;
-    for (let i = 0; i < room1.path.length; i++) {
-        for (let j = 0; j < room2.path.length; j++) {
-            const dist = getDistance(room1.path[i], room2.path[j]);
-            if (dist < threshold) return true;
-        }
+    const bounds1 = getRoomBounds(room1);
+    const bounds2 = getRoomBounds(room2);
+    
+    // Calculate the overlap area
+    const xOverlap = Math.min(bounds1.right, bounds2.right) - Math.max(bounds1.left, bounds2.left);
+    const yOverlap = Math.min(bounds1.bottom, bounds2.bottom) - Math.max(bounds1.top, bounds2.top);
+    
+    // Check if there's any overlap
+    if (xOverlap > 0 && yOverlap > 0) {
+        return true;
     }
-    return false;
+    
+    // If no overlap, check if they're close enough (within threshold)
+    const threshold = 15;
+    
+    // Check if edges are close enough
+    const horizontallyClose = Math.abs(bounds1.left - bounds2.right) < threshold || 
+                            Math.abs(bounds1.right - bounds2.left) < threshold;
+    const verticallyClose = Math.abs(bounds1.top - bounds2.bottom) < threshold || 
+                           Math.abs(bounds1.bottom - bounds2.top) < threshold;
+    
+    // Check if the rooms are adjacent (sharing an edge or corner)
+    const horizontalOverlap = bounds1.left <= bounds2.right + threshold && bounds1.right >= bounds2.left - threshold;
+    const verticalOverlap = bounds1.top <= bounds2.bottom + threshold && bounds1.bottom >= bounds2.top - threshold;
+    
+    return (horizontallyClose && verticalOverlap) || (verticallyClose && horizontalOverlap);
 }
 
 // Coloring algorithms
@@ -474,45 +520,86 @@ function clearCanvas() {
 function generateRandomRooms() {
     clearCanvas();
     
-    // Define room types and their typical dimensions with GBFS aesthetic
-    const roomTypes = [
-        { name: 'Start Room', width: 120, height: 120, color: '#4CAF50' },  // Green for start
-        { name: 'Goal Room', width: 120, height: 120, color: '#F44336' },   // Red for goal
-        { name: 'Path Room', width: 100, height: 100, color: '#2196F3' },   // Blue for path
-        { name: 'Explored Room', width: 100, height: 100, color: '#9E9E9E' } // Grey for explored
-    ];
-
-    // Start with a central room
-    const startRoom = createRoom(roomTypes[0], {
-        x: canvas.width / 2 - 60,
-        y: canvas.height / 2 - 60
-    });
-    rooms.push(startRoom);
-
-    // Create a path of rooms
-    const numRooms = Math.floor(Math.random() * 3) + 4; // 4-6 additional rooms
-    let lastRoom = startRoom;
+    const numRooms = 4 + Math.floor(Math.random() * 3); // 4-6 rooms
+    const roomSize = Math.min(canvas.width, canvas.height) / 5; // Base room size
     
     for (let i = 0; i < numRooms; i++) {
-        const roomType = i === numRooms - 1 ? roomTypes[1] : roomTypes[2];
-        const position = findConnectedPosition(lastRoom, roomType);
+        // Create rooms with more consistent sizes
+        const width = roomSize * (0.9 + Math.random() * 0.2);
+        const height = roomSize * (0.9 + Math.random() * 0.2);
         
-        if (position) {
-            const newRoom = createRoom(roomType, position);
-            rooms.push(newRoom);
-            lastRoom = newRoom;
+        let x, y;
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        do {
+            if (i === 0) {
+                // First room in the center
+                x = canvas.width / 2 - width / 2;
+                y = canvas.height / 2 - height / 2;
+                break;
+            } else {
+                // Choose a random existing room to connect to
+                const randomExistingRoom = rooms[Math.floor(Math.random() * rooms.length)];
+                const bounds = getRoomBounds(randomExistingRoom);
+                
+                // Ensure significant overlap (25-35% of room size)
+                const overlap = roomSize * (0.25 + Math.random() * 0.1);
+                
+                // Random position adjacent to the chosen room
+                const side = Math.floor(Math.random() * 4);
+                const randomOffset = (Math.random() - 0.5) * roomSize * 0.3;
+                
+                switch (side) {
+                    case 0: // top
+                        x = bounds.left + randomOffset;
+                        y = bounds.top - height + overlap;
+                        break;
+                    case 1: // right
+                        x = bounds.right - overlap;
+                        y = bounds.top + randomOffset;
+                        break;
+                    case 2: // bottom
+                        x = bounds.left + randomOffset;
+                        y = bounds.bottom - overlap;
+                        break;
+                    case 3: // left
+                        x = bounds.left - width + overlap;
+                        y = bounds.top + randomOffset;
+                        break;
+                }
+                
+                // Ensure rooms stay within canvas bounds
+                x = Math.max(0, Math.min(canvas.width - width, x));
+                y = Math.max(0, Math.min(canvas.height - height, y));
+            }
             
-            // Add a small delay for animation
-            setTimeout(() => {
-                showSuccessAnimation(newRoom);
-            }, i * 200);
-        }
+            attempts++;
+        } while (attempts < maxAttempts && !isValidPosition(x, y, { width, height }));
+        
+        if (attempts >= maxAttempts) continue; // Skip this room if we couldn't find a valid position
+        
+        const path = [
+            { x: x, y: y },
+            { x: x + width, y: y },
+            { x: x + width, y: y + height },
+            { x: x, y: y + height }
+        ];
+        
+        const room = {
+            id: Date.now() + i,
+            path: path,
+            color: null,
+            center: { x: x + width/2, y: y + height/2 }
+        };
+        
+        rooms.push(room);
     }
-
+    
     updateAdjacencyGraph();
     updateStats();
     redrawRooms();
-    showOverlayMessage('Generated GBFS layout');
+    showOverlayMessage('Rooms generated with proper adjacency');
 }
 
 function createRoom(type, position) {
@@ -594,21 +681,30 @@ function isValidPosition(x, y, roomType) {
         return false;
     }
     
-    // Check overlap with existing rooms
-    const newBounds = {
-        left: x,
-        right: x + roomType.width,
-        top: y,
-        bottom: y + roomType.height
+    // For the first room, any position within bounds is valid
+    if (rooms.length === 0) {
+        return true;
+    }
+    
+    // Check if the new room would be adjacent to at least one existing room
+    const newRoom = {
+        path: [
+            { x: x, y: y },
+            { x: x + roomType.width, y: y },
+            { x: x + roomType.width, y: y + roomType.height },
+            { x: x, y: y + roomType.height }
+        ]
     };
     
-    return !rooms.some(room => {
-        const bounds = getRoomBounds(room);
-        return !(newBounds.right < bounds.left || 
-                newBounds.left > bounds.right || 
-                newBounds.bottom < bounds.top || 
-                newBounds.top > bounds.bottom);
-    });
+    let hasAdjacent = false;
+    for (const room of rooms) {
+        if (areRoomsAdjacent(newRoom, room)) {
+            hasAdjacent = true;
+            break;
+        }
+    }
+    
+    return hasAdjacent;
 }
 
 function resetColors() {
@@ -723,20 +819,10 @@ function eraseRoom(e) {
     const roomToErase = findRoomAtPoint(point);
     
     if (roomToErase) {
-        // Remove room from array
         rooms = rooms.filter(room => room.id !== roomToErase.id);
-        
-        // Update adjacency graph
         updateAdjacencyGraph();
-        
-        // Update stats
         updateStats();
-        
-        // Redraw canvas
         redrawRooms();
-        
-        // Show feedback
-        showOverlayMessage('Room erased');
     }
 }
 

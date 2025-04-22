@@ -1,11 +1,14 @@
-# Virtual Lab - Algorithm Visualizations
+# Neural Nexus - AI Algorithm Visualizations
 
-An interactive web-based platform for visualizing and learning various algorithms through hands-on experimentation and step-by-step visualization.
+An interactive web-based platform for visualizing and learning various AI algorithms through hands-on experimentation and step-by-step visualization.
 For live demo, go to https://neuralnexuslab.netlify.app/
 
 ## Current Visualizations
 
-### 1. Alpha-Beta Pruning
+### 1. Graph-Based AI Search Algorithms
+A collection of powerful search algorithms that form the backbone of artificial intelligence and problem-solving.
+
+#### 1.1 Alpha-Beta Pruning
 An optimization technique for the minimax algorithm used in game theory and artificial intelligence.
 
 Features:
@@ -16,7 +19,7 @@ Features:
 - Pruning visualization
 - Autoplay functionality
 
-### 2. Greedy Best-First Search (GBFS)
+#### 1.2 Greedy Best-First Search (GBFS)
 A pathfinding algorithm that uses heuristics to find the most promising path to the goal.
 
 Features:
@@ -27,7 +30,42 @@ Features:
 - Heuristic function demonstration
 - Path cost calculation
 
-### 3. Tic-Tac-Toe with AI
+#### 1.3 Depth-First Search (DFS)
+A graph traversal algorithm that explores as far as possible along each branch.
+
+Features:
+- Interactive graph visualization
+- Customizable graph structure
+- Step-by-step traversal visualization
+- Node highlighting
+- Path tracking
+- Backtracking visualization
+
+#### 1.4 A* Search
+An informed search algorithm that finds the shortest path using heuristics.
+
+Features:
+- Interactive grid-based visualization
+- Customizable start and goal positions
+- Obstacle placement
+- Heuristic function visualization
+- Path cost calculation
+- Open/Closed set visualization
+
+#### 1.5 Uniform Cost Search
+A search algorithm that finds the path with the lowest cumulative cost.
+
+Features:
+- Interactive grid-based visualization
+- Customizable node costs
+- Step-by-step cost calculation
+- Path optimization visualization
+- Cost matrix display
+- Optimal path highlighting
+
+### 2. Game Theory and Problem Solving
+
+#### 2.1 Tic-Tac-Toe with AI
 A classic game implementation showcasing minimax algorithm in practice.
 
 Features:
@@ -37,6 +75,52 @@ Features:
 - Move highlighting
 - Game state visualization
 - Win/Draw detection
+
+#### 2.2 Missionaries and Cannibals
+A classic state space problem solved using search algorithms.
+
+Features:
+- Interactive state space visualization
+- Step-by-step solution demonstration
+- State transition visualization
+- Valid move highlighting
+- Solution path tracking
+- Problem constraints display
+
+#### 2.3 Wumpus World
+A knowledge representation and reasoning problem in AI.
+
+Features:
+- Interactive cave exploration
+- Knowledge base visualization
+- Logical reasoning demonstration
+- Agent perception simulation
+- Decision making visualization
+- Game state tracking
+
+### 3. Optimization Problems
+
+#### 3.1 Traveling Salesman Problem
+An optimization problem to find the shortest possible route.
+
+Features:
+- Interactive city placement
+- Multiple algorithm implementations
+- Step-by-step solution visualization
+- Cost calculation
+- Route optimization
+- Performance comparison
+
+#### 3.2 Constraint Satisfaction (Room Coloring)
+Solving problems by finding values that satisfy all constraints.
+
+Features:
+- Interactive room layout
+- Constraint visualization
+- Solution space exploration
+- Backtracking demonstration
+- Valid assignment checking
+- Multiple solution finding
 
 ## Getting Started
 
@@ -69,20 +153,22 @@ virtual-lab/
 ├── README.md
 ├── index.html
 ├── styles.css
+├── script.js
+├── resources/
+│   ├── section1.mp4
+│   ├── section2.mp4
+│   └── ai logo.png
 ├── alpha-beta-pruning/
-│   ├── index.html
-│   ├── script.js
-│   └── styles.css
 ├── gbfs-demo/
-│   ├── index.html
-│   ├── script.js
-│   └── styles.css
+├── dfs-demo/
+├── a star algorithm/
+├── Uniform Cost Search/
 ├── tic-tac-toe/
-│   ├── index.html
-│   ├── script.js
-│   └── styles.css
-└── assets/
-    └── images/
+├── missionaries-cannibals/
+├── wumpus-world/
+├── Traveling salesman problem/
+├── room-coloring/
+└── Min max algorithm/
 ```
 
 ## Features Common to All Visualizations
@@ -94,6 +180,9 @@ virtual-lab/
 - Educational information panels
 - Responsive design
 - Dark/Light mode support
+- Mobile-friendly interface
+- Real-time algorithm visualization
+- Customizable parameters
 
 ## Contributing
 

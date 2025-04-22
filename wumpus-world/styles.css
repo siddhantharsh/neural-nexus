@@ -124,8 +124,8 @@ h2, h3 {
 /* Controls Section */
 .controls-section {
     background-color: var(--primary-color);
-    border-radius: 25px;
-    padding: 25px;
+    border-radius: 15px;
+    padding: 15px 20px;
     color: white;
     margin-bottom: 20px;
     animation: fadeInRight 0.5s ease-out;
@@ -134,8 +134,10 @@ h2, h3 {
     will-change: transform;
 }
 
-.controls-section:hover {
-    transform: scale(1.01);
+.controls-section h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: white;
 }
 
 .controls {
@@ -148,7 +150,7 @@ button {
     background-color: var(--secondary-color);
     color: var(--text-color);
     border: none;
-    padding: 12px;
+    padding: 10px;
     border-radius: 30px;
     font-size: 0.9rem;
     cursor: pointer;
@@ -286,26 +288,25 @@ button:disabled {
 /* Status Panel */
 .status-panel {
     background-color: var(--primary-color);
-    border-radius: 25px;
-    padding: 25px;
+    border-radius: 15px;
+    padding: 15px 20px;
     color: white;
     margin-bottom: 20px;
-    animation: fadeInRight 0.5s ease-out 0.2s backwards;
-    transform-origin: center;
-    transition: transform 0.3s ease;
-    will-change: transform;
+    animation: fadeInRight 0.6s ease-out;
 }
 
-.status-panel:hover {
-    transform: scale(1.01);
+.status-panel h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: white;
 }
 
 .status-panel p {
+    margin: 8px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 8px 0;
-    animation: fadeIn 0.3s ease-out;
+    font-size: 0.95rem;
 }
 
 .status-panel span {
@@ -352,42 +353,37 @@ button:disabled {
 /* Knowledge Base */
 .knowledge-base {
     background-color: var(--primary-color);
-    border-radius: 25px;
-    padding: 25px;
+    border-radius: 15px;
+    padding: 15px 20px;
     color: white;
-    flex: 1;
-    min-height: 0;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    animation: fadeInRight 0.5s ease-out 0.4s backwards;
-    transform-origin: center;
-    transition: transform 0.3s ease;
-    will-change: transform;
-}
-
-.knowledge-base:hover {
-    transform: scale(1.01);
+    height: 200px;
+    animation: fadeInRight 0.7s ease-out;
 }
 
 .knowledge-base h3 {
-    margin: 0 0 15px 0;
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
     color: white;
+    flex-shrink: 0;
 }
 
 #knowledge-list {
     list-style: none;
-    padding-right: 8px;
+    padding: 0 8px 0 0;
     margin: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    flex: 1;
+    flex-grow: 1;
+    height: calc(100% - 35px);
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
 #knowledge-list::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
 
 #knowledge-list::-webkit-scrollbar-track {
@@ -396,17 +392,17 @@ button:disabled {
 
 #knowledge-list::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
+    border-radius: 2px;
 }
 
 #knowledge-list li {
-    padding: 12px 16px;
+    padding: 10px 12px;
     margin: 6px 0;
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     font-size: 0.95rem;
-    line-height: 1.5;
+    line-height: 1.4;
     animation: slideInLeft 0.3s ease-out forwards;
     word-wrap: break-word;
     max-width: 100%;

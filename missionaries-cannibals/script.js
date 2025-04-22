@@ -174,6 +174,9 @@ class MissionariesCannibals {
             return;
         }
 
+        // Disable controls during animation
+        this.disableControls();
+
         // Remove current position classes
         boat.classList.remove('left-side', 'right-side');
         
@@ -208,6 +211,11 @@ class MissionariesCannibals {
             
             // Check win condition
             this.checkWinCondition();
+
+            // Re-enable controls if not playing solution
+            if (!this.isPlayingSolution) {
+                this.enableControls();
+            }
         }, 1500); // Match the animation duration from CSS
     }
 
@@ -311,22 +319,26 @@ class MissionariesCannibals {
             case 'add':
                 for (let i = 0; i < step.count; i++) {
                     this.addToBoat(step.type);
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    await new Promise(resolve => setTimeout(resolve, 700));
                 }
                 break;
             case 'remove':
                 for (let i = 0; i < step.count; i++) {
                     this.removeFromBoat(step.type);
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    await new Promise(resolve => setTimeout(resolve, 700));
                 }
                 break;
             case 'cross':
-                this.crossRiver();
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await new Promise(resolve => {
+                    this.crossRiver();
+                    setTimeout(resolve, 2000); // Wait for crossing animation to complete
+                });
                 break;
         }
 
         this.currentStep++;
+        // Add a small pause between steps
+        await new Promise(resolve => setTimeout(resolve, 500));
     }
 
     render() {
