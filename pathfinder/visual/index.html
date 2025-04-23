@@ -2,10 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>find path by algorithm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathfinder Visual</title>
 
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./lib/themes/jquery.ui.all.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script type="text/javascript" src="./lib/raphael-min.js"></script>
     <script type="text/javascript" src="./lib/es5-shim.min.js"></script>
@@ -28,6 +31,14 @@
     <script type="text/javascript" src="./js/main.js"></script>
   </head>
   <body>
+    <div class="navigation-buttons">
+        <a href="../index.html" class="nav-button" title="Back">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <a href="../../index.html" class="nav-button" title="Home">
+            <i class="fas fa-home"></i>
+        </a>
+    </div>
     <div id="draw_area"></div>
 
     <div id="loading_panel" class="panel" style="display: none;">
