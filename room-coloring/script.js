@@ -545,7 +545,7 @@ function generateRandomRooms() {
                 
                 // Ensure significant overlap (25-35% of room size)
                 const overlap = roomSize * (0.25 + Math.random() * 0.1);
-                
+
                 // Random position adjacent to the chosen room
                 const side = Math.floor(Math.random() * 4);
                 const randomOffset = (Math.random() - 0.5) * roomSize * 0.3;
@@ -595,7 +595,7 @@ function generateRandomRooms() {
         
         rooms.push(room);
     }
-    
+
     updateAdjacencyGraph();
     updateStats();
     redrawRooms();
