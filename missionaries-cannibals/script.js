@@ -253,10 +253,14 @@ class MissionariesCannibals {
         const currentBank = this.state[this.state.boatPosition];
         const boatTotal = this.state.boat.missionaries + this.state.boat.cannibals;
 
+        // Update add/remove buttons
         this.addMButton.disabled = currentBank.missionaries === 0 || boatTotal >= 2;
         this.addCButton.disabled = currentBank.cannibals === 0 || boatTotal >= 2;
         this.removeMButton.disabled = this.state.boat.missionaries === 0;
         this.removeCButton.disabled = this.state.boat.cannibals === 0;
+
+        // Always enable cross button if there's at least one person in the boat
+        this.crossButton.disabled = boatTotal === 0;
     }
 
     disableControls() {

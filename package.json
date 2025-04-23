@@ -1,0 +1,21 @@
+{
+  "name": "virtual-lab",
+  "version": "1.0.0",
+  "description": "An interactive web-based platform for visualizing and learning various AI algorithms through hands-on experimentation and step-by-step visualization. This project provides a comprehensive collection of AI algorithm visualizations, from basic search algorithms to complex problem-solving techniques.",
+  "main": "add-chatbot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siddhantharsh/neural-nexus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/siddhantharsh/neural-nexus/issues"
+  },
+  "homepage": "https://github.com/siddhantharsh/neural-nexus#readme"
+}
