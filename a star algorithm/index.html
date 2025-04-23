@@ -1,94 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A* Search Algorithm Visualization</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A* Search Algorithm</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="app-container">
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <h1>A* Search</h1>
-                <p class="subtitle">Interactive Path Finding Visualization</p>
-            </div>
-            
-            <div class="tools-section">
-                <h2>Tools</h2>
-                <div class="tool-buttons">
-                    <button id="addNode" class="tool-button">
-                        <i class="fas fa-plus"></i> Add Node
-                    </button>
-                    <button id="connectNodes" class="tool-button">
-                        <i class="fas fa-link"></i> Connect Nodes
-                    </button>
-                    <button id="deleteNode" class="tool-button">
-                        <i class="fas fa-trash"></i> Delete Node
-                    </button>
-                </div>
-            </div>
+  <div class="container">
+    <h1>A* Search Algorithm</h1>
 
-            <div class="algorithm-section">
-                <h2>Algorithm Controls</h2>
-                <div class="control-buttons">
-                    <button id="startAStar" class="primary">Start A*</button>
-                    <button id="nextStep" class="secondary">Next Step</button>
-                    <button id="autoPlay" class="secondary">Auto Play</button>
-                    <button id="clear" class="secondary">Clear All</button>
-                    <button id="clearVisited" class="secondary">Clear Visited</button>
-                </div>
-            </div>
-
-            <div class="stats-section">
-                <h2>Statistics</h2>
-                <div class="stat-item">
-                    <span class="stat-label">Goal Node:</span>
-                    <span id="goalVector" class="stat-value">5</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Frontier:</span>
-                    <span id="frontier" class="stat-value">[]</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Current Node:</span>
-                    <span id="visiting" class="stat-value">-</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Next Node:</span>
-                    <span id="toVisit" class="stat-value">-</span>
-                </div>
-            </div>
-
-            <div class="info-section">
-                <div id="observation" class="info-card">
-                    <h2>Observation</h2>
-                    <p>Click "Start A*" to begin the visualization</p>
-                </div>
-            </div>
-
-            <div class="instructions-section">
-                <h2>Instructions</h2>
-                <ul>
-                    <li>Click "Add Node" to create new nodes</li>
-                    <li>Click "Connect Nodes" to link nodes together</li>
-                    <li>Click "Delete Node" to remove nodes</li>
-                    <li>Click "Start A*" to begin the algorithm</li>
-                    <li>Use "Next Step" to see each iteration</li>
-                    <li>Enable "Auto Play" for continuous visualization</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="canvas-container">
-            <canvas id="graphCanvas"></canvas>
-        </div>
+    <!-- Controls -->
+    <div class="controls">
+      <button id="startAStar">Start A*</button>
+      <button id="nextStep">Next</button>
+      <button id="autoPlay">Autoplay</button>
+      <button id="clear">Clear</button>
+      <button id="clearVisited">Clear Visited</button>
+      <a href="../pathfinder/visual/index.html" class="control-button">Pathfinder Demo</a>
     </div>
-    <div class="back-button">
-        <a href="../pathfinder/visual/index.html" class="back-link">Back to Pathfinder</a>
+
+    <!-- Vertex Inputs -->
+    <div class="vertex-inputs">
+      <div class="vertex-input-group" style="margin: 0 auto;">
+        <label for="startVertex">Start Vertex:</label>
+        <input type="number" id="startVertex" value="0" min="0">
+      </div>
+      <div class="vertex-input-group" style="margin: 0 auto;">
+        <label for="goalVertex">End Vertex:</label>
+        <input type="number" id="goalVertex" value="5" min="0">
+      </div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Theory Section -->
+    <div class="theory-tab">
+      <div class="theory-content">
+        <p><strong>A* Search Algorithm</strong> is an informed search algorithm that finds the shortest path between nodes by combining the cost to reach the node (g(n)) and the estimated cost to reach the goal (h(n)). It uses the evaluation function f(n) = g(n) + h(n) to determine which node to explore next.</p>
+        <p><strong>Cost Function (g(n)):</strong> The actual cost from the start node to the current node.</p>
+        <p><strong>Heuristic Function (h(n)):</strong> Estimates the cost from the current node to the goal.</p>
+        <p><strong>Evaluation Function (f(n)):</strong> The sum of g(n) and h(n), used to determine the next node to explore.</p>
+      </div>
+    </div>
+
+    <!-- Graph Container -->
+    <div class="graph-container">
+      <canvas id="graphCanvas" width="600" height="500"></canvas>
+    </div>
+
+    <!-- Information -->
+    <div class="info">
+      <h2>Information</h2>
+      <p><strong>Goal Vector:</strong> <span id="goalVector">undefined</span></p>
+      <p><strong>Open Set:</strong> <span id="openSet">[]</span></p>
+      <p><strong>Closed Set:</strong> <span id="closedSet">[]</span></p>
+      <p><strong>Current Node:</strong> <span id="currentNode">undefined</span></p>
+      <p><strong>Next Node:</strong> <span id="nextNode">undefined</span></p>
+    </div>
+
+    <!-- Observation -->
+    <div class="observation" id="observation">
+      <h2>Observation</h2>
+      <p><strong>Currently visitable nodes:</strong> <span id="visitableNodes">undefined</span></p>
+      <p><strong>Path Cost g(n):</strong> <span id="pathCost">undefined</span></p>
+      <p><strong>Heuristic Cost h(n):</strong> <span id="heuristicCost">undefined</span></p>
+      <p><strong>Total Cost f(n):</strong> <span id="totalCost">undefined</span></p>
+      <p><strong>Parent Node:</strong> <span id="parentNode">undefined</span></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html> 
