@@ -1,14 +1,25 @@
 # Neural Nexus - AI Algorithm Visualizations
 
-An interactive web-based platform for visualizing and learning various AI algorithms through hands-on experimentation and step-by-step visualization.
+An interactive web-based platform for visualizing and learning various AI algorithms through hands-on experimentation and step-by-step visualization. This project provides a comprehensive collection of AI algorithm visualizations, from basic search algorithms to complex problem-solving techniques.
+
 For live demo, go to https://neuralnexuslab.netlify.app/
 
-## Current Visualizations
+## Table of Contents
+1. [Graph-Based AI Search Algorithms](#1-graph-based-ai-search-algorithms)
+2. [Game Theory and Problem Solving](#2-game-theory-and-problem-solving)
+3. [Optimization Problems](#3-optimization-problems)
+4. [Knowledge Representation](#4-knowledge-representation)
+5. [Getting Started](#getting-started)
+6. [Project Structure](#project-structure)
+7. [Features](#features)
+8. [Contributing](#contributing)
+9. [License](#license)
 
-### 1. Graph-Based AI Search Algorithms
+## 1. Graph-Based AI Search Algorithms
+
 A collection of powerful search algorithms that form the backbone of artificial intelligence and problem-solving.
 
-#### 1.1 Alpha-Beta Pruning
+### 1.1 Alpha-Beta Pruning
 An optimization technique for the minimax algorithm used in game theory and artificial intelligence.
 
 Features:
@@ -19,7 +30,7 @@ Features:
 - Pruning visualization
 - Autoplay functionality
 
-#### 1.2 Greedy Best-First Search (GBFS)
+### 1.2 Greedy Best-First Search (GBFS)
 A pathfinding algorithm that uses heuristics to find the most promising path to the goal.
 
 Features:
@@ -30,7 +41,7 @@ Features:
 - Heuristic function demonstration
 - Path cost calculation
 
-#### 1.3 Depth-First Search (DFS)
+### 1.3 Depth-First Search (DFS)
 A graph traversal algorithm that explores as far as possible along each branch.
 
 Features:
@@ -41,7 +52,7 @@ Features:
 - Path tracking
 - Backtracking visualization
 
-#### 1.4 A* Search
+### 1.4 A* Search
 An informed search algorithm that finds the shortest path using heuristics.
 
 Features:
@@ -51,8 +62,9 @@ Features:
 - Heuristic function visualization
 - Path cost calculation
 - Open/Closed set visualization
+- Pathfinder demo integration
 
-#### 1.5 Uniform Cost Search
+### 1.5 Uniform Cost Search
 A search algorithm that finds the path with the lowest cumulative cost.
 
 Features:
@@ -63,9 +75,9 @@ Features:
 - Cost matrix display
 - Optimal path highlighting
 
-### 2. Game Theory and Problem Solving
+## 2. Game Theory and Problem Solving
 
-#### 2.1 Tic-Tac-Toe with AI
+### 2.1 Tic-Tac-Toe with AI
 A classic game implementation showcasing minimax algorithm in practice.
 
 Features:
@@ -75,8 +87,10 @@ Features:
 - Move highlighting
 - Game state visualization
 - Win/Draw detection
+- Score tracking
+- Undo functionality
 
-#### 2.2 Missionaries and Cannibals
+### 2.2 Missionaries and Cannibals
 A classic state space problem solved using search algorithms.
 
 Features:
@@ -86,21 +100,11 @@ Features:
 - Valid move highlighting
 - Solution path tracking
 - Problem constraints display
+- Multiple solution finding
 
-#### 2.3 Wumpus World
-A knowledge representation and reasoning problem in AI.
+## 3. Optimization Problems
 
-Features:
-- Interactive cave exploration
-- Knowledge base visualization
-- Logical reasoning demonstration
-- Agent perception simulation
-- Decision making visualization
-- Game state tracking
-
-### 3. Optimization Problems
-
-#### 3.1 Traveling Salesman Problem
+### 3.1 Traveling Salesman Problem
 An optimization problem to find the shortest possible route.
 
 Features:
@@ -110,8 +114,10 @@ Features:
 - Cost calculation
 - Route optimization
 - Performance comparison
+- Customizable city count
+- Distance matrix visualization
 
-#### 3.2 Constraint Satisfaction (Room Coloring)
+### 3.2 Constraint Satisfaction (Room Coloring)
 Solving problems by finding values that satisfy all constraints.
 
 Features:
@@ -121,6 +127,23 @@ Features:
 - Backtracking demonstration
 - Valid assignment checking
 - Multiple solution finding
+- Customizable room connections
+- Color palette selection
+
+## 4. Knowledge Representation
+
+### 4.1 Wumpus World
+A knowledge representation and reasoning problem in AI.
+
+Features:
+- Interactive cave exploration
+- Knowledge base visualization
+- Logical reasoning demonstration
+- Agent perception simulation
+- Decision making visualization
+- Game state tracking
+- Multiple cave layouts
+- Risk assessment visualization
 
 ## Getting Started
 
@@ -162,13 +185,13 @@ virtual-lab/
 ├── gbfs-demo/
 ├── dfs-demo/
 ├── a star algorithm/
+├── pathfinder/
 ├── Uniform Cost Search/
 ├── tic-tac-toe/
 ├── missionaries-cannibals/
 ├── wumpus-world/
 ├── Traveling salesman problem/
-├── room-coloring/
-└── Min max algorithm/
+└── room-coloring/
 ```
 
 ## Features Common to All Visualizations
@@ -183,10 +206,21 @@ virtual-lab/
 - Mobile-friendly interface
 - Real-time algorithm visualization
 - Customizable parameters
+- Navigation buttons for easy access
+- Font Awesome icons integration
+- Consistent styling across all demos
+- Error handling and user feedback
+- Performance optimization
+- Cross-browser compatibility
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request. When contributing, please:
+
+1. Fork the repository
+2. Create a new branch for your feature
+3. Make your changes
+4. Submit a pull request with a clear description of your changes
 
 ## License
 
