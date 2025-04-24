@@ -160,17 +160,21 @@ class MissionariesCannibals {
             cannibals: this.state.boat.cannibals
         };
 
-        // Calculate new position
+        // Calculate new position and states for both banks
         const newPosition = isOnLeftBank ? 'right' : 'left';
+        const sourceBank = this.state[this.state.boatPosition];
         const targetBank = this.state[newPosition];
         
-        // Check if move would be valid
+        // Calculate new states for both banks
+        const newSourceM = sourceBank.missionaries;
+        const newSourceC = sourceBank.cannibals;
         const newTargetM = targetBank.missionaries + boatState.missionaries;
         const newTargetC = targetBank.cannibals + boatState.cannibals;
         
-        if (!this.isValidState(newTargetM, newTargetC)) {
+        // Check if both banks would be in valid states
+        if (!this.isValidState(newSourceM, newSourceC) || !this.isValidState(newTargetM, newTargetC)) {
             this.state.invalidAttempts++;
-            this.updateStatus('Invalid move! Cannibals would outnumber missionaries!', 'error');
+            this.updateStatus('Invalid move! Cannibals would outnumber missionaries on one of the banks!', 'error');
             return;
         }
 
@@ -224,6 +228,16 @@ class MissionariesCannibals {
         
         if (boatTotal === 0) {
             this.updateStatus('Boat needs at least one person!', 'warning');
+            return false;
+        }
+
+        // Check if the move would leave the source bank in an invalid state
+        const sourceBank = this.state[this.state.boatPosition];
+        const remainingM = sourceBank.missionaries;
+        const remainingC = sourceBank.cannibals;
+        
+        if (!this.isValidState(remainingM, remainingC)) {
+            this.updateStatus('Invalid move! This would leave cannibals outnumbering missionaries!', 'error');
             return false;
         }
 

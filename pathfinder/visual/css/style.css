@@ -473,29 +473,25 @@ button:hover {
 }
 
 .nav-button {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  background-color: #4a5568;
-  color: white;
+  background: rgba(119, 149, 181, 0.85);
+  color: #2d3748;
   border: none;
   border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
   cursor: pointer;
-  text-decoration: none;
-  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
 }
 
 .nav-button:hover {
-  background-color: #2d3748;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: rgba(119, 149, 181, 1);
 }
 
 .nav-button i {
-  margin: 0;
+  font-size: 18px;
 }

@@ -22,11 +22,12 @@ body {
     background-color: #f5f9ff;
     color: #2d3748;
     margin: 0;
-    padding: 1rem;
+    padding: 0;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
 }
 
 .container {
@@ -35,12 +36,12 @@ body {
     background-color: white;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(44, 62, 80, 0.1);
-    padding: 2rem 2rem 4rem 2rem;
+    padding: 2rem;
     display: grid;
     grid-template-columns: 300px 1fr 300px;
     grid-template-rows: auto auto auto 1fr;
     gap: 15px;
-    height: calc(100vh - 20px);
+    flex: 1;
     animation: fadeIn 0.8s ease-out;
 }
 
@@ -131,7 +132,7 @@ h1 {
     color: white;
     grid-column: 1;
     grid-row: 4;
-    height: 420px;
+    height: 500px;
     transition: all 0.3s ease;
 }
 
@@ -270,4 +271,36 @@ canvas {
 
 .nav-button i {
   margin: 0;
+}
+
+/* Footer Styles */
+.site-footer {
+    width: 100%;
+    background: #232a34;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.footer-left p, .footer-right p {
+    margin: 0;
+    color: #fff;
+    font-size: 14px;
+}
+
+@media (max-width: 600px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
 } 
