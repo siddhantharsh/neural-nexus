@@ -301,7 +301,9 @@ class MissionariesCannibals {
             invalidAttempts: 0
         };
 
-        this.boat.classList.remove('crossing-right', 'crossing-left');
+        // Ensure boat is on left side
+        this.boat.classList.remove('crossing-right', 'crossing-left', 'right-side');
+        this.boat.classList.add('left-side');
         this.updateStatus('Select passengers and cross the river...');
         this.render();
         
@@ -312,12 +314,22 @@ class MissionariesCannibals {
         if (this.isPlayingSolution) return;
         
         this.isPlayingSolution = true;
-        this.resetPuzzle();
         this.disableControls();
         document.getElementById('showSolution').disabled = true;
 
+        // Reset the puzzle and wait for it to complete
+        this.resetPuzzle();
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for reset to complete
+        
+        // Reset the current step counter
+        this.currentStep = 0;
+
         while (this.currentStep < this.solution.length) {
             await this.playNextStep();
+            // Add a longer pause between major steps (after crossing)
+            if (this.solution[this.currentStep - 1]?.action === 'cross') {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
         }
 
         this.isPlayingSolution = false;
@@ -355,8 +367,6 @@ class MissionariesCannibals {
         }
 
         this.currentStep++;
-        // Add a small pause between steps
-        await new Promise(resolve => setTimeout(resolve, 500));
     }
 
     render() {
