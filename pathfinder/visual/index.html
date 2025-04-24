@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./lib/themes/jquery.ui.all.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../../footer.css">
 
     <script type="text/javascript" src="./lib/raphael-min.js"></script>
     <script type="text/javascript" src="./lib/es5-shim.min.js"></script>
@@ -41,9 +42,9 @@
 </head>
   <body>
     <div class="navigation-buttons">
-        <a href="../index.html" class="nav-button" title="Back">
+        <button onclick="window.history.back()" class="nav-button" title="Back">
             <i class="fas fa-arrow-left"></i>
-        </a>
+        </button>
         <a href="../../index.html" class="nav-button" title="Home">
             <i class="fas fa-home"></i>
         </a>
@@ -198,27 +199,18 @@
       });
     </script>
   
-    
-    
-
-    
-    
-
-    
-    
-    
-
-    <!-- Chatbot Integration -->
-    
-    
-
-    <!-- Chatbot Integration -->
-    <link rel="stylesheet" href="../chatbot.css">
-    <div class="chatbot-iframe-container">
-        <iframe class="chatbot-iframe" src="../chatbot.html" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
-    </div>
-    <script src="../chatbot-injector.js"></script>
-    <!-- End Chatbot Integration -->
     <script src="script.js"></script>
+
+    <!-- Footer Section -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>Developed by Team Purrgrammers</p>
+            </div>
+            <div class="footer-right">
+                <p>Department of Computing Technologies | SRMIST</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
