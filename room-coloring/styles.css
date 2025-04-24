@@ -57,7 +57,7 @@ body {
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
     overflow-y: auto;
 }
 
@@ -129,11 +129,15 @@ h2 {
     cursor: pointer;
 }
 
+.algorithm-section {
+    margin-top: -0.5rem;
+}
+
 .color-palette {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .color-swatch {
@@ -159,6 +163,7 @@ h2 {
     padding: 1.5rem;
     border-radius: 25px;
     color: white;
+    margin-top: -0.5rem;
 }
 
 .stat-item {

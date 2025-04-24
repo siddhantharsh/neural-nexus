@@ -5,7 +5,7 @@ let currentTool = 'draw';
 let rooms = [];
 let currentPath = [];
 let adjacencyGraph = {};
-let colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD', '#D4A5A5', '#9B9B9B'];
+let colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD', '#D4A5A5'];
 let selectedColor = colors[0];
 let currentStep = 0;
 let animationSpeed = 500;
@@ -157,10 +157,11 @@ function setupEventListeners() {
 // Color palette setup
 function setupColorPalette() {
     const palette = document.querySelector('.color-palette');
-    colors.forEach(color => {
+    colors.forEach((color, index) => {
         const swatch = document.createElement('div');
         swatch.className = 'color-swatch';
         swatch.style.backgroundColor = color;
+        if (index === 0) swatch.classList.add('active');
         swatch.addEventListener('click', () => {
             selectedColor = color;
             document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));

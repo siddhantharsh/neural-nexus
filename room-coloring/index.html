@@ -53,11 +53,6 @@
             </div>
 
             <div class="algorithm-section">
-                <h2>Algorithm</h2>
-                <select id="algorithm-select" class="select-input">
-                    <option value="greedy">Greedy Coloring</option>
-                    <option value="backtracking">Backtracking</option>
-                </select>
                 <div class="color-palette">
                     <!-- Color swatches will be added by JavaScript -->
                 </div>
@@ -107,12 +102,13 @@
             <p>Room coloring is a graph coloring problem where adjacent rooms must have different colors. It has practical applications in scheduling, register allocation, and map coloring. The goal is to color all rooms using the minimum number of colors while ensuring no adjacent rooms share the same color.</p>
         </div>
         <div class="info-card">
-            <h3><i class="fas fa-code"></i> The Algorithm</h3>
+            <h3><i class="fas fa-code"></i> How Coloring Works</h3>
             <ul>
-                <li>Greedy: Colors rooms sequentially using the first available color</li>
-                <li>Backtracking: Systematically explores all possible colorings</li>
-                <li>Ensures no adjacent rooms have the same color</li>
-                <li>Aims to minimize the number of colors used</li>
+                <li>Colors are assigned to rooms one by one</li>
+                <li>Each room must have a different color from its adjacent rooms</li>
+                <li>The algorithm tries to use the minimum number of colors possible</li>
+                <li>If a room can't be colored with existing colors, a new color is used</li>
+                <li>This ensures no two adjacent rooms share the same color</li>
             </ul>
         </div>
         <div class="info-card">
