@@ -30,11 +30,11 @@ body {
     max-width: 1400px;
     width: 100%;
     margin: 0 auto;
-    flex: 1;
     padding: 2rem;
     background-color: white;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(44, 62, 80, 0.1);
+    height: fit-content;
 }
 
 h1 {
@@ -79,8 +79,7 @@ h1 {
 .main-content {
     display: flex;
     gap: 20px;
-    flex: 1;
-    min-height: 0;
+    height: fit-content;
 }
 
 /* Side Panels */
@@ -217,12 +216,12 @@ h1 {
 
 /* Canvas */
 #canvas {
-    flex: 1;
-    min-height: 0;
     background: white;
     border: 3px solid #C5D3E3;
     border-radius: 25px;
     transition: all 0.3s ease;
+    height: 600px; /* Fixed height for canvas */
+    width: 100%;
 }
 
 /* Theory Content */
