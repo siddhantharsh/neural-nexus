@@ -55,79 +55,59 @@ function setupCanvas() {
 // Event listeners setup
 function setupEventListeners() {
     // Drawing events
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', endDrawing);
-    canvas.addEventListener('mouseleave', endDrawing);
+    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('mouseleave', handleMouseUp);
     
     // Tool selection
     document.querySelectorAll('.tool-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            currentTool = e.target.dataset.tool;
+            const tool = e.currentTarget.dataset.tool;
+            currentTool = tool;
+            
+            // Update active state
             document.querySelectorAll('.tool-btn').forEach(b => {
                 b.classList.remove('active');
                 b.querySelector('i').classList.remove('fa-spin');
             });
-            e.target.classList.add('active');
-            if (currentTool === 'drag') {
-                e.target.querySelector('i').classList.add('fa-spin');
+            e.currentTarget.classList.add('active');
+            
+            // Add spin animation for drag tool
+            if (tool === 'drag') {
+                e.currentTarget.querySelector('i').classList.add('fa-spin');
             }
+            
             updateCursor();
+            showOverlayMessage(`Tool: ${tool.charAt(0).toUpperCase() + tool.slice(1)}`);
         });
     });
     
-    // Algorithm selection
-    document.getElementById('algorithm-select').addEventListener('change', (e) => {
-        const algorithm = e.target.value;
-        resetColors();
-        if (algorithm === 'greedy') {
-            colorRoomsGreedy();
-        } else if (algorithm === 'backtracking') {
-            colorRoomsBacktracking();
-        }
-    });
-    
     // Action buttons
-    document.getElementById('clear-btn').addEventListener('click', clearCanvas);
-    document.getElementById('generate-btn').addEventListener('click', generateRandomRooms);
+    const clearBtn = document.getElementById('clear-btn');
+    const generateBtn = document.getElementById('generate-btn');
+    const colorBtn = document.getElementById('color-btn');
     
-    // Replace select with drag events
-    canvas.addEventListener('mousedown', (e) => {
-        if (currentTool === 'drag') {
-            startDragging(e);
-        }
-    });
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            clearCanvas();
+            showOverlayMessage('Canvas cleared');
+        });
+    }
     
-    canvas.addEventListener('mousemove', (e) => {
-        if (currentTool === 'drag') {
-            dragRoom(e);
-        }
-    });
+    if (generateBtn) {
+        generateBtn.addEventListener('click', () => {
+            generateRandomRooms();
+            showOverlayMessage('Random rooms generated');
+        });
+    }
     
-    canvas.addEventListener('mouseup', () => {
-        if (currentTool === 'drag') {
-            stopDragging();
-        }
-    });
-    
-    canvas.addEventListener('mouseleave', () => {
-        if (currentTool === 'drag') {
-            stopDragging();
-        }
-    });
-    
-    // Add hover effect for drag tool
-    canvas.addEventListener('mousemove', (e) => {
-        if (currentTool === 'drag' && !isDragging) {
-            const point = getCanvasPoint(e);
-            const roomUnderMouse = findRoomAtPoint(point);
-            
-            if (roomUnderMouse !== highlightedRoom) {
-                highlightedRoom = roomUnderMouse;
-                redrawRooms();
-            }
-        }
-    });
+    if (colorBtn) {
+        colorBtn.addEventListener('click', () => {
+            startColoring();
+            showOverlayMessage('Coloring started');
+        });
+    }
     
     // Add keyboard shortcuts
     document.addEventListener('keydown', (e) => {
@@ -141,17 +121,61 @@ function setupEventListeners() {
             showOverlayMessage('Room deleted');
         }
     });
+}
+
+// Mouse event handlers
+function handleMouseDown(e) {
+    const point = getCanvasPoint(e);
     
-    // Add color button listener
-    document.getElementById('color-btn').addEventListener('click', startColoring);
-    
-    // Add erase functionality
-    canvas.addEventListener('mousedown', eraseRoom);
-    canvas.addEventListener('mousemove', (e) => {
-        if (e.buttons === 1) { // Left mouse button is held down
+    switch (currentTool) {
+        case 'draw':
+            startDrawing(e);
+            break;
+        case 'drag':
+            startDragging(e);
+            break;
+        case 'erase':
             eraseRoom(e);
-        }
-    });
+            break;
+    }
+}
+
+function handleMouseMove(e) {
+    const point = getCanvasPoint(e);
+    
+    switch (currentTool) {
+        case 'draw':
+            draw(e);
+            break;
+        case 'drag':
+            dragRoom(e);
+            break;
+        case 'erase':
+            if (e.buttons === 1) {
+                eraseRoom(e);
+            }
+            break;
+        default:
+            // Update hover effect for drag tool
+            if (currentTool === 'drag' && !isDragging) {
+                const roomUnderMouse = findRoomAtPoint(point);
+                if (roomUnderMouse !== highlightedRoom) {
+                    highlightedRoom = roomUnderMouse;
+                    redrawRooms();
+                }
+            }
+    }
+}
+
+function handleMouseUp() {
+    switch (currentTool) {
+        case 'draw':
+            endDrawing();
+            break;
+        case 'drag':
+            stopDragging();
+            break;
+    }
 }
 
 // Color palette setup
@@ -181,6 +205,8 @@ function startDrawing(e) {
     
     ctx.beginPath();
     ctx.moveTo(point.x, point.y);
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
 }
 
 function draw(e) {
@@ -189,6 +215,7 @@ function draw(e) {
     const point = getCanvasPoint(e);
     currentPath.push(point);
     
+    // Clear and redraw everything
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     redrawRooms();
     
@@ -197,7 +224,6 @@ function draw(e) {
     ctx.moveTo(currentPath[0].x, currentPath[0].y);
     currentPath.forEach(point => ctx.lineTo(point.x, point.y));
     ctx.closePath();
-    ctx.strokeStyle = '#000';
     ctx.stroke();
 }
 
@@ -212,10 +238,12 @@ function endDrawing() {
             center: calculateCenter(currentPath)
         };
         
+        // Allow overlapping rooms
         rooms.push(room);
         updateAdjacencyGraph();
         updateStats();
         showSuccessAnimation(room);
+        showOverlayMessage('Room created');
     }
     
     isDrawing = false;
@@ -513,6 +541,8 @@ function clearCanvas() {
     rooms = [];
     adjacencyGraph = {};
     currentPath = [];
+    isColoring = false;
+    currentColorIndex = 0;
     updateStats();
     redrawRooms();
     showOverlayMessage('Canvas cleared');
@@ -717,7 +747,7 @@ function resetColors() {
 }
 
 function updateCursor() {
-    switch(currentTool) {
+    switch (currentTool) {
         case 'draw':
             canvas.style.cursor = 'crosshair';
             break;
@@ -737,30 +767,16 @@ function startDragging(e) {
     if (currentTool !== 'drag') return;
     
     const point = getCanvasPoint(e);
-    const roomToDrag = findRoomAtPoint(point);
+    const room = findRoomAtPoint(point);
     
-    if (roomToDrag) {
-        // Highlight the room immediately on click
-        highlightedRoom = roomToDrag;
+    if (room) {
         isDragging = true;
-        draggedRoom = roomToDrag;
-        
-        // Calculate offset from mouse to room corner
-        const bounds = getRoomBounds(roomToDrag);
+        draggedRoom = room;
         dragOffset = {
-            x: point.x - bounds.left,
-            y: point.y - bounds.top
+            x: point.x - room.center.x,
+            y: point.y - room.center.y
         };
-        
-        // Show feedback
-        showOverlayMessage(`Selected: ${roomToDrag.type || 'Room'}`);
-        
-        // Redraw to show highlight
-        redrawRooms();
-    } else {
-        // Clicked empty space - clear highlight
-        highlightedRoom = null;
-        redrawRooms();
+        showOverlayMessage('Dragging room');
     }
 }
 
@@ -771,32 +787,24 @@ function dragRoom(e) {
     const newX = point.x - dragOffset.x;
     const newY = point.y - dragOffset.y;
     
-    // Check if new position is within canvas bounds
     if (isValidDragPosition(newX, newY, draggedRoom)) {
-        // Calculate movement delta
-        const bounds = getRoomBounds(draggedRoom);
-        const deltaX = newX - bounds.left;
-        const deltaY = newY - bounds.top;
+        // Update room position
+        const dx = newX - draggedRoom.center.x;
+        const dy = newY - draggedRoom.center.y;
         
-        // Move all points of the room
-        draggedRoom.path = draggedRoom.path.map(point => ({
-            x: point.x + deltaX,
-            y: point.y + deltaY
+        draggedRoom.path = draggedRoom.path.map(p => ({
+            x: p.x + dx,
+            y: p.y + dy
         }));
         
-        // Update room center
-        draggedRoom.center = {
-            x: draggedRoom.center.x + deltaX,
-            y: draggedRoom.center.y + deltaY
-        };
-        
-        // Redraw canvas
+        draggedRoom.center = calculateCenter(draggedRoom.path);
+        updateAdjacencyGraph();
         redrawRooms();
     }
 }
 
 function stopDragging() {
-    if (isDragging && draggedRoom) {
+    if (isDragging) {
         isDragging = false;
         draggedRoom = null;
         showOverlayMessage('Room moved');
@@ -820,21 +828,45 @@ function eraseRoom(e) {
     const roomToErase = findRoomAtPoint(point);
     
     if (roomToErase) {
+        // Remove the room
         rooms = rooms.filter(room => room.id !== roomToErase.id);
+        
+        // Update adjacency graph and stats
         updateAdjacencyGraph();
         updateStats();
+        
+        // Show feedback
+        showOverlayMessage('Room erased');
+        showSuccessAnimation(roomToErase);
+        
+        // Redraw canvas
         redrawRooms();
     }
 }
 
 function findRoomAtPoint(point) {
-    return rooms.find(room => {
-        const bounds = getRoomBounds(room);
-        return point.x >= bounds.left && 
-               point.x <= bounds.right && 
-               point.y >= bounds.top && 
-               point.y <= bounds.bottom;
-    });
+    // Check each room's path to see if the point is inside
+    for (let i = rooms.length - 1; i >= 0; i--) {
+        const room = rooms[i];
+        if (isPointInPolygon(point, room.path)) {
+            return room;
+        }
+    }
+    return null;
+}
+
+// Helper function to check if a point is inside a polygon
+function isPointInPolygon(point, polygon) {
+    let inside = false;
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        const xi = polygon[i].x, yi = polygon[i].y;
+        const xj = polygon[j].x, yj = polygon[j].y;
+        
+        const intersect = ((yi > point.y) !== (yj > point.y))
+            && (point.x < (xj - xi) * (point.y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+    return inside;
 }
 
 // Add selection functionality
@@ -879,15 +911,8 @@ function startColoring() {
     // Reset all room colors
     rooms.forEach(room => room.color = null);
     
-    // Get selected algorithm
-    const algorithm = document.getElementById('algorithm-select').value;
-    
-    // Start coloring process
-    if (algorithm === 'greedy') {
-        colorRoomsGreedy();
-    } else {
-        colorRoomsBacktracking();
-    }
+    // Start coloring process with greedy algorithm
+    colorRoomsGreedy();
     
     // Update button state
     updateButtonStates();
@@ -909,4 +934,18 @@ function updateButtonStates() {
         clearBtn.disabled = false;
         colorBtn.innerHTML = '<i class="fas fa-paint-brush"></i> Start Coloring';
     }
+}
+
+// Helper function to check room overlap
+function areRoomsOverlapping(room1, room2) {
+    // Simple bounding box check
+    const bounds1 = getRoomBounds(room1);
+    const bounds2 = getRoomBounds(room2);
+    
+    return !(
+        bounds1.right < bounds2.left ||
+        bounds1.left > bounds2.right ||
+        bounds1.bottom < bounds2.top ||
+        bounds1.top > bounds2.bottom
+    );
 } 

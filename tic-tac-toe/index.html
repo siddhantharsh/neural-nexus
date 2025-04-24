@@ -77,6 +77,51 @@
 
       <!-- Right Panel -->
       <div class="side-panel right-panel">
+        <div class="info-box ai-visualization">
+          <h2>AI Decision Making</h2>
+          <div class="ai-thinking">
+            <div class="thinking-header">
+              <span class="thinking-label">AI is thinking...</span>
+              <div class="thinking-animation">
+                <div class="thinking-dot"></div>
+                <div class="thinking-dot"></div>
+                <div class="thinking-dot"></div>
+              </div>
+            </div>
+            <div class="decision-steps">
+              <div class="step" id="step1">
+                <span class="step-number">1</span>
+                <span class="step-text">Checking for winning moves</span>
+                <div class="step-status"></div>
+              </div>
+              <div class="step" id="step2">
+                <span class="step-number">2</span>
+                <span class="step-text">Blocking opponent's winning moves</span>
+                <div class="step-status"></div>
+              </div>
+              <div class="step" id="step3">
+                <span class="step-number">3</span>
+                <span class="step-text">Taking center if available</span>
+                <div class="step-status"></div>
+              </div>
+              <div class="step" id="step4">
+                <span class="step-number">4</span>
+                <span class="step-text">Taking corners</span>
+                <div class="step-status"></div>
+              </div>
+              <div class="step" id="step5">
+                <span class="step-number">5</span>
+                <span class="step-text">Random available move</span>
+                <div class="step-status"></div>
+              </div>
+            </div>
+            <div class="final-decision">
+              <div class="decision-label">Final Decision:</div>
+              <div class="decision-value" id="finalDecision">-</div>
+            </div>
+          </div>
+        </div>
+
         <div class="info-box strategy">
           <h2>AI Strategy Development</h2>
           <p>The AI can learn optimal play through:</p>
