@@ -49,6 +49,7 @@ export function Node() {
     this.value = 0;
     this.pruned = false;
     this.step = 0;
+    this.scale = 1; // For animation
 };
 
 Node.prototype.setPruned = function() {
@@ -148,9 +149,13 @@ Node.prototype.draw = function(ctx) {
         node.draw(ctx);
     };
 
-    // Draw node circle
+    // Draw node circle with scale
+    ctx.save();
+    let scale = this.scale !== undefined ? this.scale : 1;
+    ctx.translate(this.pos[0], this.pos[1]);
+    ctx.scale(scale, scale);
     ctx.beginPath();
-    ctx.arc(this.pos[0], this.pos[1], Node.radius, 0, 2 * Math.PI);
+    ctx.arc(0, 0, Node.radius, 0, 2 * Math.PI);
     
     if (this.pruned) {
         ctx.fillStyle = "#B4C6FC";  // Light blue for pruned nodes
@@ -169,7 +174,7 @@ Node.prototype.draw = function(ctx) {
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#ffffff";  // White text
     if (this.value != null && this.value != Number.POSITIVE_INFINITY && this.value != Number.NEGATIVE_INFINITY) {
-        ctx.fillText(this.value.toString(), this.pos[0], this.pos[1]);
+        ctx.fillText(this.value.toString(), 0, 0);
     }
 
     // Draw alpha-beta values if node has children
@@ -187,7 +192,7 @@ Node.prototype.draw = function(ctx) {
         } else {
             alphaText += this.alpha;
         }
-        ctx.fillText(alphaText, this.pos[0], this.pos[1] - Node.radius * 1.5);
+        ctx.fillText(alphaText, 0, -Node.radius * 1.7);
         
         var betaText = "β: ";
         if (this.beta == Number.POSITIVE_INFINITY) {
@@ -199,7 +204,7 @@ Node.prototype.draw = function(ctx) {
         } else {
             betaText += this.beta;
         }
-        ctx.fillText(betaText, this.pos[0], this.pos[1] - Node.radius * 1.2);
+        ctx.fillText(betaText, 0, -Node.radius * 1.3);
     }
 
     // Draw highlight for current node if needed
@@ -207,9 +212,10 @@ Node.prototype.draw = function(ctx) {
         ctx.strokeStyle = "#60A5FA";  // Bright blue highlight
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.arc(this.pos[0], this.pos[1], Node.radius + 5, 0, Math.PI * 2);
+        ctx.arc(0, 0, Node.radius + 5, 0, Math.PI * 2);
         ctx.stroke();
     }
+    ctx.restore();
 };
 
 Node.radius = 25;  // Set a consistent node size

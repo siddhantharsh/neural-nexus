@@ -225,3 +225,45 @@ Contributions are welcome! Please feel free to submit a Pull Request. When contr
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Netlify Functions API Proxy Setup
+
+To securely use your API key with Netlify:
+
+1. Add your API key in the Netlify dashboard under Site settings > Build & deploy > Environment > Environment variables. Example: `OPENROUTER_API_KEY`.
+2. Place your serverless function in `netlify/functions/openrouter-proxy.js` (see below).
+3. In your frontend, call `/.netlify/functions/openrouter-proxy` instead of the third-party API directly.
+
+Example function:
+```js
+// netlify/functions/openrouter-proxy.js
+exports.handler = async (event) => {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  const body = event.body;
+
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body,
+    });
+
+    const data = await response.text();
+    return {
+      statusCode: response.status,
+      body: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
+  }
+};
+```
