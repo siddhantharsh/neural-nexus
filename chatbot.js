@@ -4,7 +4,9 @@ class VirtualLabChatbot {
         this.isOpen = false;
         this.lastRequestTime = 0;
         this.minRequestInterval = 1000; // 1 second between requests
+        this.messages = [];
         this.initialize();
+        this.loadChatHistory();
     }
 
     initialize() {
@@ -385,8 +387,17 @@ class VirtualLabChatbot {
         `;
         document.head.appendChild(style);
         
-        // Add welcome message
-        this.addMessage('Hello! I\'m Neuron, your AI assistant. How can I help you today?', 'bot');
+        // Load existing chat history first
+        const savedMessages = localStorage.getItem('vl-chatbot-messages');
+        if (savedMessages) {
+            this.messages = JSON.parse(savedMessages);
+            this.messages.forEach(msg => {
+                this.addMessage(msg.text, msg.sender, false);
+            });
+        } else {
+            // Only add welcome message if there's no existing chat history
+            this.addMessage('Hello! I\'m Neuron, your AI assistant. How can I help you today?', 'bot');
+        }
     }
 
     toggleWindow() {
@@ -617,16 +628,39 @@ If a topic is complex, focus on the most fundamental aspects that a beginner nee
         }).join('\n\n');
     }
 
-    addMessage(text, sender) {
-        const messages = this.container.querySelector('.vl-chatbot-messages');
-        const message = document.createElement('div');
-        message.className = `vl-chatbot-message ${sender}`;
+    saveMessage(text, sender) {
+        this.messages.push({ text, sender });
+        localStorage.setItem('vl-chatbot-messages', JSON.stringify(this.messages));
+    }
+
+    loadChatHistory() {
+        const savedMessages = localStorage.getItem('vl-chatbot-messages');
+        if (savedMessages) {
+            this.messages = JSON.parse(savedMessages);
+            const messagesContainer = this.container.querySelector('.vl-chatbot-messages');
+            messagesContainer.innerHTML = ''; // Clear existing messages
+            this.messages.forEach(msg => {
+                this.addMessage(msg.text, msg.sender, false);
+            });
+        }
+    }
+
+    addMessage(text, sender, save = true) {
+        const messagesContainer = this.container.querySelector('.vl-chatbot-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `vl-chatbot-message ${sender}`;
+        
         const content = document.createElement('div');
         content.className = 'vl-chatbot-message-content';
-        content.innerHTML = text; // Use innerHTML to render formatted text
-        message.appendChild(content);
-        messages.appendChild(message);
-        messages.scrollTop = messages.scrollHeight;
+        content.innerHTML = text;
+        
+        messageDiv.appendChild(content);
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        if (save) {
+            this.saveMessage(text, sender);
+        }
     }
 
     showTyping() {
