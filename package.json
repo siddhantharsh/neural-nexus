@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "An interactive web-based platform for visualizing and learning various AI algorithms through hands-on experimentation and step-by-step visualization. This project provides a comprehensive collection of AI algorithm visualizations, from basic search algorithms to complex problem-solving techniques.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:functions": "netlify-lambda build netlify/functions"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/siddhantharsh/neural-nexus/issues"
   },
-  "homepage": "https://github.com/siddhantharsh/neural-nexus#readme"
+  "homepage": "https://github.com/siddhantharsh/neural-nexus#readme",
+  "devDependencies": {
+    "netlify-lambda": "^2.0.15"
+  }
 }
