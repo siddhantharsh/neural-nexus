@@ -194,7 +194,7 @@
 .vl-chatbot-typing {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     padding: 14px 18px;
     background: rgba(248, 249, 250, 0.8);
     backdrop-filter: blur(10px);
@@ -202,51 +202,47 @@
     align-self: flex-start;
     margin-top: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    min-width: 200px;
+    max-width: 80%;
 }
 
 .vl-chase-animation {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     position: relative;
+    height: 60px;
+    width: 200px;
+    overflow: hidden;
 }
 
 .vl-police-robo {
-    width: 40px;
-    height: 40px;
-    transform: scaleX(-1); /* Flip horizontally */
-    animation: chaseLeft 2s infinite;
+    width: 50px;
+    height: 50px;
+    transform: scaleX(-1);
+    animation: chaseLeft 2s infinite linear;
+    filter: brightness(0.8) contrast(1.1) !important;
 }
 
 .vl-thief-robo {
-    width: 40px;
-    height: 40px;
-    animation: chaseRight 2s infinite;
+    width: 50px;
+    height: 50px;
+    animation: chaseRight 2s infinite linear;
+    filter: brightness(0.8) contrast(1.1) !important;
 }
 
-.vl-chase-text {
+.vl-catching-text {
     font-size: 14px;
     color: #6c757d;
     text-align: center;
-    margin-top: 8px;
-    animation: pulse 1.5s infinite;
+    margin-top: 5px;
 }
 
 @keyframes chaseLeft {
-    0% { transform: scaleX(-1) translateX(10px); }
-    50% { transform: scaleX(-1) translateX(-10px); }
-    100% { transform: scaleX(-1) translateX(10px); }
+    0% { transform: translateX(-60px) scaleX(-1); }
+    100% { transform: translateX(210px) scaleX(-1); }
 }
 
 @keyframes chaseRight {
-    0% { transform: translateX(-10px); }
-    50% { transform: translateX(10px); }
-    100% { transform: translateX(-10px); }
-}
-
-@keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
+    0% { transform: translateX(-60px); }
+    100% { transform: translateX(210px); }
 } 

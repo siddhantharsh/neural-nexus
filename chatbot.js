@@ -450,7 +450,7 @@ class VirtualLabChatbot {
     async getAIResponse(message, retryCount = 0) {
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 15000); // Reduced timeout
+            const timeoutId = setTimeout(() => controller.abort(), 30000);
 
             console.log(`Attempt ${retryCount + 1} to get response...`);
 
@@ -464,25 +464,35 @@ class VirtualLabChatbot {
                     messages: [
                         {
                             role: 'system',
-                            content: `You are Neuron, an AI assistant for a Virtual Lab project. Keep responses under 100 words. Be clear, helpful, and focus on AI/CS topics. Use simple language and prioritize accuracy.
+                            content: `You are Neuron, an AI assistant designed for a Virtual Lab project. Your responses must be under 100 words.
 
-Key points:
-- Give clear, concise explanations
-- Focus on essential information
+Key rules:
+- Give extremely concise, clear explanations
+- Focus on the most important information only
 - Use simple language
-- Focus on AI and CS topics
-- Complete any examples or lists you start`
+- Avoid unnecessary details
+- Skip examples unless specifically requested
+- Never exceed 100 words
+- Be accurate and helpful despite being brief
+- No jokes or random facts
+- Focus only on AI, algorithms, and CS topics
+- If you start an example, you MUST complete it
+- If you start a list, you MUST complete it
+- If you start a comparison, you MUST complete it
+- NEVER leave any explanation incomplete
+
+If a topic is complex, focus on the most fundamental aspects that a beginner needs to know.`
                         },
                         {
                             role: 'user',
                             content: message
                         }
                     ],
-                    temperature: 0.5,
-                    max_tokens: 250, // Increased for 100-word responses
-                    top_p: 0.8,
-                    frequency_penalty: 0.3,
-                    presence_penalty: 0.3,
+                    temperature: 0.7,
+                    max_tokens: 2000,
+                    top_p: 0.9,
+                    frequency_penalty: 0.5,
+                    presence_penalty: 0.5,
                     stream: false
                 }),
                 signal: controller.signal
@@ -496,28 +506,93 @@ Key points:
             }
 
             const data = await response.json();
-            
+            console.log('Raw API Response:', data);
+
             if (data.error) {
+                console.error('API Error:', data.error);
                 throw new Error(data.error.message || 'API returned an error');
             }
 
             if (!data.choices || !data.choices.length) {
-                throw new Error('Empty response from API');
+                console.error('Empty choices in response');
+                if (retryCount < 2) {
+                    console.log('Retrying...');
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                    return this.getAIResponse(message, retryCount + 1);
+                }
+                throw new Error('Empty response from API after retries');
             }
 
             const choice = data.choices[0];
+            console.log('First choice:', choice);
+
             if (!choice.message || !choice.message.content) {
-                throw new Error('Invalid response format');
+                console.error('Invalid response format');
+                if (retryCount < 2) {
+                    console.log('Retrying...');
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                    return this.getAIResponse(message, retryCount + 1);
+                }
+                throw new Error('Invalid response format after retries');
             }
 
             const rawResponse = choice.message.content.trim();
+            console.log('Raw response content:', rawResponse);
+
+            if (!rawResponse) {
+                if (retryCount < 2) {
+                    console.log('Retrying...');
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                    return this.getAIResponse(message, retryCount + 1);
+                }
+                throw new Error('Empty response content after retries');
+            }
+
+            // Check for incomplete responses
+            if (rawResponse.includes('Example') && !rawResponse.includes('Example:') && !rawResponse.includes('Example -')) {
+                console.log('Response has incomplete example, retrying...');
+                if (retryCount < 2) {
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                    return this.getAIResponse(message, retryCount + 1);
+                }
+            }
+
+            // Check for incomplete lists
+            if (rawResponse.includes('1.') && !rawResponse.includes('2.')) {
+                console.log('Response has incomplete list, retrying...');
+                if (retryCount < 2) {
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                    return this.getAIResponse(message, retryCount + 1);
+                }
+            }
+
+            // Check for incomplete comparisons
+            if (rawResponse.includes('vs') && !rawResponse.includes(':')) {
+                console.log('Response has incomplete comparison, retrying...');
+                if (retryCount < 2) {
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                    return this.getAIResponse(message, retryCount + 1);
+                }
+            }
+
             return this.formatResponse(rawResponse);
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Detailed error:', error);
             if (error.name === 'AbortError') {
-                return "Request timeout. Please try again.";
+                return "The request took too long to process. Please try again with a shorter question.";
             }
-            return "I couldn't process your request. Please try again.";
+            if (error.message.includes('429')) {
+                return "I've reached my rate limit. Please try again in a few moments.";
+            }
+            if (error.message.includes('400')) {
+                return "I couldn't understand your question. Please try rephrasing it.";
+            }
+            if (retryCount < 2) {
+                console.log('Retrying after error...');
+                await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                return this.getAIResponse(message, retryCount + 1);
+            }
+            return `I'm sorry, I couldn't process your request: ${error.message}`;
         }
     }
 
@@ -525,14 +600,26 @@ Key points:
         // Count words in the response
         const wordCount = text.split(/\s+/).length;
         if (wordCount > 100) {
-            return "I need to provide a shorter response. Please ask your question again.";
+            return "I apologize, but I need to provide a shorter response. Please ask your question again for a more concise answer.";
         }
 
-        // Remove markdown and format paragraphs
-        text = text.replace(/[#*|]/g, '').replace(/-{3,}/g, '');
+        // Remove markdown formatting
+        text = text.replace(/\*\*/g, '');
+        text = text.replace(/#{1,6}\s/g, ''); // Remove markdown headers
+        text = text.replace(/###/g, ''); // Remove triple hashtags
+        text = text.replace(/\|/g, ''); // Remove table pipes
+        text = text.replace(/-{3,}/g, ''); // Remove horizontal lines
+        
+        // Split into paragraphs
         const paragraphs = text.split('\n\n');
         
+        // Format each paragraph
         return paragraphs.map(paragraph => {
+            // If it's a list item, format it properly
+            if (paragraph.startsWith('- ')) {
+                return paragraph;
+            }
+            // If it's a heading, make it bold and add a newline
             if (paragraph.includes(':')) {
                 const [heading, content] = paragraph.split(':');
                 return `<strong>${heading}:</strong> ${content}`;
@@ -588,25 +675,27 @@ Key points:
         // Add police robot
         const policeRobo = document.createElement('img');
         policeRobo.src = '/resources/policerobo.gif';
-        policeRobo.alt = 'Police Robot';
         policeRobo.className = 'vl-police-robo';
+        policeRobo.alt = 'Police Robot';
 
         // Add thief robot
         const thiefRobo = document.createElement('img');
         thiefRobo.src = '/resources/thiefrobo.gif';
-        thiefRobo.alt = 'Thief Robot';
         thiefRobo.className = 'vl-thief-robo';
+        thiefRobo.alt = 'Thief Robot';
 
-        // Add chase text
-        const chaseText = document.createElement('div');
-        chaseText.className = 'vl-chase-text';
-        chaseText.textContent = 'Catching your answer...';
-
-        // Assemble the animation
+        // Add robots to chase container
         chaseContainer.appendChild(policeRobo);
         chaseContainer.appendChild(thiefRobo);
+
+        // Add catching text
+        const catchingText = document.createElement('div');
+        catchingText.className = 'vl-catching-text';
+        catchingText.textContent = 'Catching your answer...';
+
+        // Assemble typing indicator
         typing.appendChild(chaseContainer);
-        typing.appendChild(chaseText);
+        typing.appendChild(catchingText);
         
         messages.appendChild(typing);
         messages.scrollTop = messages.scrollHeight;

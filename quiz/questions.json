@@ -1,0 +1,327 @@
+{
+  "tic-tac-toe": [
+    {
+        "question": "What is the minimum number of moves needed to win in Tic Tac Toe?",
+        "options": ["3", "5", "7", "9"],
+        "answer": 1,
+        "explanation": "The minimum number of moves required to win Tic Tac Toe is 5 (3 moves by one player and 2 by the other)."
+      },
+      {
+        "question": "How many total possible winning lines are there in Tic Tac Toe?",
+        "options": ["3", "8", "6", "9"],
+        "answer": 1,
+        "explanation": "There are 8 possible winning lines: 3 rows, 3 columns, and 2 diagonals."
+      },
+      {
+        "question": "Which strategy guarantees a draw if both players play optimally?",
+        "options": ["Center first", "Corner first", "Side first", "Random"],
+        "answer": 0,
+        "explanation": "Starting at the center gives the best chance to force a draw if both players play perfectly."
+      },
+      {
+        "question": "What shape is the game board of Tic Tac Toe?",
+        "options": ["Triangle", "Square", "Circle", "Hexagon"],
+        "answer": 1,
+        "explanation": "The Tic Tac Toe board is a 3x3 square grid."
+      },
+      {
+        "question": "If no player wins and all spots are filled, the game is called?",
+        "options": ["Victory", "Draw", "Loss", "Win"],
+        "answer": 1,
+        "explanation": "When no player wins and the board is full, it is called a draw or a tie."
+      }
+  ],
+  "greedy-best-first-search": [
+    {
+        "question": "Greedy Best First Search uses which function for its evaluation?",
+        "options": ["g(n)", "h(n)", "f(n)", "g(n) + h(n)"],
+        "answer": 1,
+        "explanation": "Greedy Best First Search evaluates nodes using the heuristic function h(n) only."
+      },
+      {
+        "question": "What is a major drawback of Greedy Best First Search?",
+        "options": ["It always finds the shortest path", "It gets stuck in loops", "It uses too much memory", "It is slow"],
+        "answer": 1,
+        "explanation": "Greedy Best First Search can get stuck in loops as it does not track visited states carefully."
+      },
+      {
+        "question": "Which of the following is true for Greedy Best First Search?",
+        "options": ["It is complete", "It is optimal", "It is neither complete nor optimal", "It is always optimal"],
+        "answer": 2,
+        "explanation": "Greedy Best First Search is neither complete nor optimal; it may fail to find the best or any solution."
+      },
+      {
+        "question": "Which type of search is Greedy Best First Search categorized as?",
+        "options": ["Uninformed", "Informed", "Random", "Blind"],
+        "answer": 1,
+        "explanation": "Greedy Best First Search is an informed search as it uses heuristic information."
+      },
+      {
+        "question": "If two nodes have the same heuristic value in Greedy Best First Search, which is selected?",
+        "options": ["Randomly", "Based on depth", "Based on cost", "Oldest inserted"],
+        "answer": 0,
+        "explanation": "If nodes have the same heuristic value, selection can be random or based on tie-breaking rules."
+      }
+  ],
+  "depth-first-search":[
+    {
+      "question": "Depth First Search (DFS) uses which data structure internally?",
+      "options": ["Queue", "Stack", "Heap", "Priority Queue"],
+      "answer": 1,
+      "explanation": "DFS uses a stack data structure (either explicitly or via recursion) to keep track of nodes."
+    },
+    {
+      "question": "What is a major disadvantage of Depth First Search?",
+      "options": ["It requires too much memory", "It may not find the shortest path", "It is very slow", "It needs heuristics"],
+      "answer": 1,
+      "explanation": "DFS may not find the shortest path because it explores deep paths first without checking for optimality."
+    },
+    {
+      "question": "Which search technique is faster when the solution is deep in the tree?",
+      "options": ["Breadth First Search", "Depth First Search", "A* Search", "Greedy Search"],
+      "answer": 1,
+      "explanation": "DFS is faster than BFS when the solution is deep because it goes down one branch completely before exploring others."
+    },
+    {
+      "question": "In DFS, if there is a cycle in the graph and no cycle detection is used, what happens?",
+      "options": ["It completes faster", "It loops infinitely", "It finds shortest path", "It uses less memory"],
+      "answer": 1,
+      "explanation": "Without cycle detection, DFS can get stuck in an infinite loop by revisiting nodes."
+    },
+    {
+      "question": "What is the worst case time complexity of DFS for a graph with V vertices and E edges?",
+      "options": ["O(V+E)", "O(VE)", "O(V^2)", "O(E^2)"],
+      "answer": 0,
+      "explanation": "DFS visits every vertex and edge once, resulting in a time complexity of O(V+E) in the worst case."
+    }
+  ]
+  ,
+  "missionaries-and-cannibals": [
+    {
+        "question": "How many missionaries and cannibals are initially on one side in the classic problem?",
+        "options": ["2 each", "3 each", "4 each", "5 each"],
+        "answer": 1,
+        "explanation": "Initially, there are 3 missionaries and 3 cannibals on one side in the classic problem."
+      },
+      {
+        "question": "What is the maximum number of people that can travel in the boat at once?",
+        "options": ["1", "2", "3", "4"],
+        "answer": 1,
+        "explanation": "The boat can carry a maximum of 2 people at a time."
+      },
+      {
+        "question": "In a safe state, what must always be true?",
+        "options": ["Cannibals can outnumber missionaries", "Missionaries must never be outnumbered", "Boat must be empty", "All cannibals must cross first"],
+        "answer": 1,
+        "explanation": "To avoid missionaries being eaten, they must never be outnumbered by cannibals on any side."
+      },
+      {
+        "question": "What happens if missionaries are outnumbered by cannibals on a side?",
+        "options": ["Nothing", "Cannibals eat the missionaries", "Game is won", "Boat is sunk"],
+        "answer": 1,
+        "explanation": "If missionaries are outnumbered by cannibals, the cannibals eat the missionaries, and the mission fails."
+      },
+      {
+        "question": "What is the goal of the Missionaries and Cannibals problem?",
+        "options": ["Save all cannibals", "Move all to the opposite side safely", "Destroy the boat", "Only missionaries must cross"],
+        "answer": 1,
+        "explanation": "The goal is to move all missionaries and cannibals safely to the other side without any missionaries being eaten."
+      }
+  ],
+  "alpha-beta-pruning":[
+    {
+      "question": "Alpha-beta pruning is used to improve the performance of which algorithm?",
+      "options": ["Dijkstra’s", "Minimax", "A*", "Greedy search"],
+      "answer": 1,
+      "explanation": "Alpha-beta pruning is applied to the Minimax algorithm to cut off unnecessary branches."
+    },
+    {
+      "question": "Alpha value represents the best value for which player?",
+      "options": ["Minimizer", "Maximizer", "Random", "Both"],
+      "answer": 1,
+      "explanation": "Alpha represents the best (highest) value that the maximizer can guarantee."
+    },
+    {
+      "question": "What is the best case time complexity for Alpha-Beta pruning?",
+      "options": ["O(b^d)", "O(b^(d/2))", "O(log b)", "O(d)"],
+      "answer": 1,
+      "explanation": "In the best case, Alpha-Beta Pruning reduces time complexity to O(b^(d/2))."
+    },
+    {
+      "question": "Which order of moves gives maximum pruning in Alpha-Beta?",
+      "options": ["Random order", "Worst moves first", "Best moves first", "Any order"],
+      "answer": 2,
+      "explanation": "Exploring the best moves first results in maximum pruning in Alpha-Beta pruning."
+    },
+    {
+      "question": "When does Alpha-Beta pruning reduce the number of nodes evaluated?",
+      "options": ["Always", "Only in worst case", "Only in best case", "Never"],
+      "answer": 2,
+      "explanation": "Alpha-Beta pruning is most effective (greatest reduction) when the best moves are ordered first, the best case."
+    }
+  ]
+  ,
+  "astar-search": [
+    {
+      "question": "A* Search combines which two factors to find the optimal path?",
+      "options": ["Only heuristic", "Only cost", "Cost and heuristic", "Random values"],
+      "answer": 2,
+      "explanation": "A* uses both path cost (g(n)) and heuristic cost (h(n)) to calculate f(n) = g(n) + h(n)."
+    },
+    {
+      "question": "A* Search is guaranteed to find the optimal solution if the heuristic is?",
+      "options": ["Admissible", "Consistent", "Random", "Negative"],
+      "answer": 0,
+      "explanation": "A heuristic is admissible if it never overestimates the cost to reach the goal, ensuring A* finds an optimal path."
+    },
+    {
+      "question": "What happens if the heuristic used in A* is overestimating?",
+      "options": ["Still optimal", "Not guaranteed optimal", "Faster search", "Complete"],
+      "answer": 1,
+      "explanation": "If the heuristic overestimates, A* search may not find the optimal solution."
+    },
+    {
+      "question": "What is the time complexity of A* Search in the worst case?",
+      "options": ["Exponential", "Linear", "Logarithmic", "Constant"],
+      "answer": 0,
+      "explanation": "In the worst case, A* Search has exponential time complexity with respect to the search depth."
+    },
+    {
+      "question": "If two paths have the same f(n) value in A*, how is the decision made?",
+      "options": ["Choose randomly", "Expand both", "Expand one arbitrarily", "Expand node with smaller h(n)"],
+      "answer": 3,
+      "explanation": "When f(n) values are equal, the node with a smaller heuristic value h(n) is often preferred."
+    }
+  ],
+  "uniform-cost-search":
+    [
+        {
+          "question": "Uniform Cost Search expands the node with the lowest:",
+          "options": ["Heuristic value", "Depth", "Path cost", "Random cost"],
+          "answer": 2,
+          "explanation": "UCS expands the node with the lowest path cost (g(n))."
+        },
+        {
+          "question": "Which data structure is used in Uniform Cost Search to select nodes?",
+          "options": ["Stack", "Queue", "Priority Queue", "Heap"],
+          "answer": 2,
+          "explanation": "Uniform Cost Search uses a priority queue to always expand the node with the least cost."
+        },
+        {
+          "question": "Uniform Cost Search is guaranteed to find the optimal solution if:",
+          "options": ["All step costs are the same", "Step costs are positive", "Heuristics are perfect", "Graph has no cycles"],
+          "answer": 1,
+          "explanation": "UCS finds the optimal solution when step costs are positive."
+        },
+        {
+          "question": "What happens if Uniform Cost Search encounters multiple nodes with same cost?",
+          "options": ["It picks randomly", "It explores all in any order", "It stops", "It uses heuristic"],
+          "answer": 1,
+          "explanation": "When multiple nodes have the same cost, UCS can explore them in any order."
+        },
+        {
+          "question": "What is the time complexity of Uniform Cost Search in terms of branching factor 'b' and solution cost 'C'?",
+          "options": ["O(b^C)", "O(C^b)", "O(b+C)", "O(C)"],
+          "answer": 0,
+          "explanation": "In worst case, UCS can have time complexity O(b^C) where b is branching factor and C is solution cost."
+        }
+      ],
+      "wumpus-world":[
+        {
+          "question": "In Wumpus World, what indicates the presence of a pit nearby?",
+          "options": ["Stench", "Breeze", "Glitter", "Sound"],
+          "answer": 1,
+          "explanation": "A breeze is felt in a square adjacent to a pit."
+        },
+        {
+          "question": "What does 'stench' signify in Wumpus World?",
+          "options": ["Pit nearby", "Gold nearby", "Wumpus nearby", "Wall nearby"],
+          "answer": 2,
+          "explanation": "A stench indicates that a Wumpus is in an adjacent square."
+        },
+        {
+          "question": "What does 'glitter' represent in Wumpus World?",
+          "options": ["Gold is in the current square", "Pit nearby", "Wumpus nearby", "Exit nearby"],
+          "answer": 0,
+          "explanation": "Glitter means gold is present in the current square."
+        },
+        {
+          "question": "What happens if the agent walks into the Wumpus?",
+          "options": ["Wins the game", "Dies", "Finds gold", "Shoots arrow"],
+          "answer": 1,
+          "explanation": "If the agent walks into the Wumpus, it dies immediately."
+        },
+        {
+          "question": "What action can an agent take to kill the Wumpus?",
+          "options": ["Pick up", "Climb", "Shoot arrow", "Walk over"],
+          "answer": 2,
+          "explanation": "The agent can kill the Wumpus by shooting an arrow into the correct square."
+        }
+      ],
+      "travelling-salesman":[
+        {
+          "question": "What is the objective of the Travelling Salesman Problem (TSP)?",
+          "options": ["Visit maximum cities", "Visit each city exactly once with minimum cost", "Minimize time spent", "Maximize distance covered"],
+          "answer": 1,
+          "explanation": "TSP aims to find the shortest possible route that visits each city exactly once and returns to the starting point."
+        },
+        {
+          "question": "What type of problem is TSP classified as?",
+          "options": ["P class", "NP-hard", "Linear", "Uninformed search"],
+          "answer": 1,
+          "explanation": "TSP is an NP-hard optimization problem, meaning it is very hard to solve optimally for large inputs."
+        },
+        {
+          "question": "In TSP, how many possible routes exist for n cities (excluding start point)?",
+          "options": ["n", "n^2", "(n-1)!", "n!"],
+          "answer": 2,
+          "explanation": "There are (n-1)! possible routes when the start point is fixed."
+        },
+        {
+          "question": "Which algorithm provides an approximate solution to TSP quickly?",
+          "options": ["Breadth First Search", "Depth First Search", "Greedy Algorithm", "Bellman-Ford"],
+          "answer": 2,
+          "explanation": "Greedy algorithms can provide fast but approximate solutions to the TSP."
+        },
+        {
+          "question": "What happens to the time complexity of solving TSP exactly as cities increase?",
+          "options": ["Decreases linearly", "Grows exponentially", "Remains constant", "Grows logarithmically"],
+          "answer": 1,
+          "explanation": "The time complexity grows exponentially with the number of cities due to factorial increase in possibilities."
+        }
+      ]
+, "constraint-satisfaction":[
+  {
+    "question": "In room coloring, what does a constraint usually represent?",
+    "options": ["Color preference", "Adjacent rooms must have different colors", "Color brightness", "Cost of paint"],
+    "answer": 1,
+    "explanation": "In CSP room coloring, adjacent rooms must have different colors to satisfy the constraints."
+  },
+  {
+    "question": "What is the goal of a constraint satisfaction problem (CSP)?",
+    "options": ["Maximize constraints", "Minimize colors used", "Assign values satisfying all constraints", "Assign random values"],
+    "answer": 2,
+    "explanation": "The goal is to assign values to variables such that all constraints are satisfied."
+  },
+  {
+    "question": "Which algorithm is commonly used to solve CSP problems like room coloring?",
+    "options": ["Breadth First Search", "Backtracking", "Uniform Cost Search", "Dijkstra's Algorithm"],
+    "answer": 1,
+    "explanation": "Backtracking is commonly used to solve CSPs efficiently by exploring possible solutions recursively."
+  },
+  {
+    "question": "What happens if two adjacent rooms are assigned the same color in a CSP solution?",
+    "options": ["Constraint violated", "No effect", "Solution becomes optimal", "Cost increases"],
+    "answer": 0,
+    "explanation": "Assigning the same color to adjacent rooms violates the problem constraints."
+  },
+  {
+    "question": "Which of the following improves the efficiency of solving room coloring CSPs?",
+    "options": ["Random guessing", "Forward checking", "Decreasing branching factor", "Increasing search depth"],
+    "answer": 1,
+    "explanation": "Forward checking helps by looking ahead to prevent future conflicts, improving CSP solving efficiency."
+  }
+]      
+      
+  
+}
