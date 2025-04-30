@@ -98,7 +98,7 @@ function renderSidebar(showStatus = false) {
   return sidebar;
 }
 
-function renderQuiz() {
+function renderQuiz(isNavigating = false) {
   const q = questions[current];
   let sidebar = renderSidebar();
 
@@ -112,7 +112,7 @@ function renderQuiz() {
       </div>
       <div class="question-number">Question ${current + 1} / ${questions.length}</div>
       <div class="question-text">${q.question}</div>
-      <ul class="options-list">
+      <ul class="options-list${isNavigating ? ' new-question' : ''}">
         ${q.options.map((opt, i) => `
           <li>
             <button class="option-btn${selected[current] === i ? " selected" : ""}" onclick="selectOption(${i})">${opt}</button>
@@ -127,8 +127,9 @@ function renderQuiz() {
     </div>
   `;
 
-  document.getElementById("quizContainer").innerHTML = `
-    <div class="quiz-main-layout">
+  const container = document.getElementById("quizContainer");
+  container.innerHTML = `
+    <div class="quiz-main-layout${isNavigating ? ' navigating' : ''}">
       ${content}
       <div class="quiz-sidebar">${sidebar}</div>
     </div>
@@ -137,14 +138,37 @@ function renderQuiz() {
 }
 
 function selectOption(i) {
-  selected[current] = i;
-  renderQuiz();
+  // Don't do anything if selecting the same option
+  if (selected[current] === i) return;
+
+  const optionsList = document.querySelector('.options-list');
+  const options = optionsList.querySelectorAll('.option-btn');
+  
+  // If there was a previously selected option
+  if (selected[current] !== null) {
+    const prevSelected = options[selected[current]];
+    prevSelected.classList.remove('selected');
+    prevSelected.classList.add('deselecting');
+    
+    // Update the selection immediately but let CSS handle the animation
+    selected[current] = i;
+    options[i].classList.add('selected');
+    
+    // Remove the deselecting class after animation completes
+    setTimeout(() => {
+      prevSelected.classList.remove('deselecting');
+    }, 400);
+  } else {
+    // If no previous selection, update immediately
+    selected[current] = i;
+    options[i].classList.add('selected');
+  }
 }
 
 function prevQuestion() {
   if (current > 0) {
     current--;
-    renderQuiz();
+    renderQuiz(true);
   }
 }
 
@@ -155,11 +179,12 @@ function nextQuestion() {
   }
   if (current < questions.length - 1) {
     current++;
-    renderQuiz();
+    renderQuiz(true);
   } else {
     finishQuiz();
   }
 }
+
 function getScoreComment(percent) {
   if (percent === 100) return "Excellent! Perfect score!";
   if (percent >= 80) return "Great job!";
@@ -180,9 +205,10 @@ function finishQuiz() {
   let html = `
     <div class="quiz-card">
       <div class="quiz-title">${topicTitles[topic]}</div>
-      <div class="score-box" style="display:block;">${percent}%<br>
-        <span style="font-size:0.7em;font-weight:400;">You got ${score} out of ${questions.length} correct</span>
-        <br><span style="font-size:1em;font-weight:600;">${comment}</span>
+      <div class="score-box" style="display:block;color:#ffffff;">
+        ${percent}%<br>
+        <span style="font-size:0.7em;font-weight:400;color:#ffffff;">You got ${score} out of ${questions.length} correct</span>
+        <br><span style="font-size:1em;font-weight:600;color:#ffffff;">${comment}</span>
       </div>
       <button class="quiz-btn primary" onclick="reviewQuestions()">Review Questions</button>
     </div>
@@ -197,6 +223,7 @@ function finishQuiz() {
   `;
   drawResultChart(score, questions.length - score);
 }
+
 function reviewQuestions() {
   let sidebar = renderSidebar(true);
   let html = `
@@ -234,6 +261,7 @@ window.showExplanation = function(idx, btn) {
   btn.nextElementSibling.style.display = "block";
   btn.style.display = "none";
 };
+
 function drawResultChart(correct, incorrect) {
   const canvas = document.getElementById('resultChart');
   if (!canvas) return;
@@ -257,33 +285,40 @@ function drawResultChart(correct, incorrect) {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Draw correct (green) with animation
+    // Add shadow to entire chart
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+    ctx.shadowBlur = 15;
+    ctx.shadowOffsetY = 5;
+    
+    // Draw incorrect (red) portion
+    ctx.beginPath();
+    ctx.moveTo(90, 90);
+    ctx.arc(90, 90, 80, -0.5 * Math.PI, (2 * Math.PI * easedProgress) - 0.5 * Math.PI, false);
+    ctx.closePath();
+    ctx.fillStyle = "rgba(220, 53, 69, 0.8)";
+    ctx.fill();
+    
+    // Draw correct (green) portion with glow
     ctx.beginPath();
     ctx.moveTo(90, 90);
     ctx.arc(90, 90, 80, -0.5 * Math.PI, (correctAngle * easedProgress) - 0.5 * Math.PI, false);
     ctx.closePath();
-    ctx.fillStyle = "#28a745";
+    ctx.fillStyle = "rgba(40, 167, 69, 0.9)";
+    ctx.shadowColor = 'rgba(40, 167, 69, 0.5)';
+    ctx.shadowBlur = 20;
     ctx.fill();
     
-    // Draw incorrect (red) with animation
-    ctx.beginPath();
-    ctx.moveTo(90, 90);
-    ctx.arc(90, 90, 80, (correctAngle * easedProgress) - 0.5 * Math.PI, (2 * Math.PI * easedProgress) - 0.5 * Math.PI, false);
-    ctx.closePath();
-    ctx.fillStyle = "#d9534f";
-    ctx.fill();
+    // Reset shadow
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetY = 0;
     
-    // Draw center white circle
-    ctx.beginPath();
-    ctx.arc(90, 90, 50, 0, 2 * Math.PI);
-    ctx.fillStyle = "#fff";
-    ctx.fill();
-    
-    // Add text with fade-in animation
-    ctx.fillStyle = `rgba(23, 105, 224, ${easedProgress})`;
-    ctx.font = "bold 1.2em Segoe UI, Arial";
+    // Add score text
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 28px Inter";
     ctx.textAlign = "center";
-    ctx.fillText(`${correct}/${total}`, 90, 95);
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${Math.round((correct/total) * 100)}%`, 90, 90);
     
     if (progress < 1) {
       requestAnimationFrame(animate);

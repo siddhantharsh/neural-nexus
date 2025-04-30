@@ -4,16 +4,20 @@
   <meta charset="UTF-8">
   <title>Quiz</title>
   <link rel="stylesheet" href="quiz.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/chatbot.css">
+  <script src="/chatbot.js"></script>
 </head>
 <body>
-    
-  <video autoplay muted loop id="bgVideo">
-    <source src="bg.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <div class="background">
+    <video autoplay muted loop>
+      <source src="../resources/quiz.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="top-nav">
-    <a href="index.html" class="nav-btn">🏠</a>
-    <a href="javascript:history.back()" class="nav-btn">←</a>
+    <a href="index.html" class="nav-btn"><i class="fas fa-home"></i></a>
+    <a href="javascript:history.back()" class="nav-btn"><i class="fas fa-arrow-left"></i></a>
   </div>
   <div class="quiz-container" id="quizContainer">
     <!-- Quiz content will be injected by JS -->

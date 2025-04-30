@@ -195,6 +195,12 @@
         </div>
     </footer>
 
+    <div class="quiz-icon">
+        <a href="quiz/index.html" class="quiz-button">
+            <img src="./resources/quiz.gif" alt="Quiz">
+        </a>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Ensure videos play on load
@@ -285,6 +291,21 @@
                     }
                 }
             }
+
+            // Quiz gif visibility control
+            const quizIcon = document.querySelector('.quiz-icon');
+            const algorithmsSection = document.getElementById('algorithms');
+            
+            function checkQuizIconVisibility() {
+                const rect = algorithmsSection.getBoundingClientRect();
+                const isInFirstSection = window.scrollY < window.innerHeight;
+                quizIcon.classList.toggle('visible', !isInFirstSection);
+            }
+            
+            // Check visibility on scroll
+            window.addEventListener('scroll', checkQuizIconVisibility);
+            // Check initial visibility
+            checkQuizIconVisibility();
         });
     </script>
 </body>
